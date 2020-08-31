@@ -1,7 +1,11 @@
 package co.edu.usbcali.demo.jpa;
 
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+<<<<<<< HEAD
 import static org.junit.jupiter.api.Assertions.assertNull;
+=======
+
+>>>>>>> fb4dcc3... 30Agosto
 
 import javax.persistence.EntityManager;
 
@@ -16,7 +20,11 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.transaction.annotation.Transactional;
 
+<<<<<<< HEAD
 import co.edu.usbcali.demo.domain.Customer;
+=======
+
+>>>>>>> fb4dcc3... 30Agosto
 import co.edu.usbcali.demo.domain.Product;
 
 
@@ -84,7 +92,11 @@ public class ProductTest {
 		
 		assertNotNull(product , "el producto con la identificacion "+idPro+ "  No existe ");
 		
+<<<<<<< HEAD
 		product.setEnable("N");
+=======
+		product.setEnable("Y");
+>>>>>>> fb4dcc3... 30Agosto
 		
 		entityManager.merge(product);
 		
@@ -116,12 +128,21 @@ public class ProductTest {
 	void save() {
 		// verifica que el Entity no sea nulo -> Siga si no es nulo
 		assertNotNull(entityManager, "El entityManager es nulo");
+<<<<<<< HEAD
 		System.out.println("**********************************************1");
 		Product product=entityManager.find(Product.class,"APPL90");
 		System.out.println("**********************************************2");
 		//continua la ejecución si no es nulo
 		assertNotNull(product,"El producto APPL90 no existe");
 		System.out.println("**********************************************3");
+=======
+		
+		Product product=entityManager.find(Product.class,"APPL90");
+		
+		//continua la ejecución si no es nulo
+		assertNotNull(product,"El producto APPL90 no existe");
+		
+>>>>>>> fb4dcc3... 30Agosto
 		log.info(product.getProId());
 		log.info(product.getName());
 		
@@ -130,7 +151,11 @@ public class ProductTest {
 		product.setName("iPhone X");
 		product.setPrice(4500000);
 		product.setDetail("Iphone X la nueva Generación");
+<<<<<<< HEAD
 		product.setImge("https://shopping-cart-usb.s3.amazonaws.com/images/iphone-11-pro-select-2019-family.jpeg");
+=======
+		product.setImage("https://shopping-cart-usb.s3.amazonaws.com/images/iphone-11-pro-select-2019-family.jpeg");
+>>>>>>> fb4dcc3... 30Agosto
 		product.setEnable("Y");
 		
 		entityManager.persist(product);
