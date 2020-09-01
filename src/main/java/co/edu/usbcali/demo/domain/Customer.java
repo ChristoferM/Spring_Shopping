@@ -1,10 +1,5 @@
 package co.edu.usbcali.demo.domain;
 
-<<<<<<< HEAD
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-=======
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,53 +8,11 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
->>>>>>> fb4dcc3... 30Agosto
 import javax.persistence.Table;
 
 
 
 @Entity
-<<<<<<< HEAD
-@Table(name = "customer",schema = "public")
-public class Customer {
-	
-	@Id
-	@Column(name = "email")
-	private String email;
-	
-	@Column(name = "address")
-	private String address;
-	
-	@Column(name = "name")
-	private String name;
-	
-	@Column(name = "phone")
-	private String phone;
-	
-	@Column(name = "token")
-	private String token;
-	
-	@Column(name = "enable")
-	private String enable;
-	
-	
-	public Customer() {
-		super();
-	}
-	
-	public Customer(String email, String address, String name, String phone, String token, String enable) {
-		super();
-		this.email = email;
-		this.address = address;
-		this.name = name;
-		this.phone = phone;
-		this.token = token;
-		this.enable = enable;
-	}
-
-	public String getEmail() {
-		return email;
-=======
 @Table(name = "customer", schema = "public")
 public class Customer implements java.io.Serializable {
 	
@@ -104,31 +57,21 @@ public class Customer implements java.io.Serializable {
 	
 	public String getEmail() {
 		return this.email;
->>>>>>> fb4dcc3... 30Agosto
 	}
 
 	public void setEmail(String email) {
 		this.email = email;
 	}
 
-<<<<<<< HEAD
-	public String getAddress() {
-		return address;
-=======
 	
 	public String getAddress() {
 		return this.address;
->>>>>>> fb4dcc3... 30Agosto
 	}
 
 	public void setAddress(String address) {
 		this.address = address;
 	}
 
-<<<<<<< HEAD
-	public String getName() {
-		return name;
-=======
 	
 	public String getEnable() {
 		return this.enable;
@@ -141,53 +84,30 @@ public class Customer implements java.io.Serializable {
 	
 	public String getName() {
 		return this.name;
->>>>>>> fb4dcc3... 30Agosto
 	}
 
 	public void setName(String name) {
 		this.name = name;
 	}
 
-<<<<<<< HEAD
-	public String getPhone() {
-		return phone;
-=======
 	
 	public String getPhone() {
 		return this.phone;
->>>>>>> fb4dcc3... 30Agosto
 	}
 
 	public void setPhone(String phone) {
 		this.phone = phone;
 	}
 
-<<<<<<< HEAD
-	public String getToken() {
-		return token;
-=======
 	
 	public String getToken() {
 		return this.token;
->>>>>>> fb4dcc3... 30Agosto
 	}
 
 	public void setToken(String token) {
 		this.token = token;
 	}
 
-<<<<<<< HEAD
-	public String getEnable() {
-		return enable;
-	}
-
-	public void setEnable(String enable) {
-		this.enable = enable;
-	}
-	
-	
-
-=======
 	
 	public List<ShoppingCart> getShoppingCarts() {
 		return this.shoppingCarts;
@@ -196,5 +116,5 @@ public class Customer implements java.io.Serializable {
 	public void setShoppingCarts(List<ShoppingCart> shoppingCarts) {
 		this.shoppingCarts = shoppingCarts;
 	}
->>>>>>> fb4dcc3... 30Agosto
 }
+
