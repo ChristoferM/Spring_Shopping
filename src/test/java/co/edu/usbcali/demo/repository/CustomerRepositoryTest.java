@@ -135,6 +135,7 @@ class CustomerRepositoryTest {
 	void findByEnableAndEmail() {
 		List<Customer> customers=customerRepository.findByEnableAndEmail("Y", "bropsdf@imgur.com");
 		assertFalse(customers.isEmpty());
+		//devuelve si la lista esta tienes datos -> asserTrue funciona para comprobar que la lsita viene vacia
 		customers.forEach(customer->{
 			log.info("Name:"+customer.getName());
 			log.info("Email:"+customer.getEmail());
