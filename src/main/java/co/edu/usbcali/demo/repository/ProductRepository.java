@@ -11,16 +11,15 @@ import co.edu.usbcali.demo.domain.Product;
 public interface ProductRepository  extends JpaRepository<Product, String> {
 
 	public List<Product> findByEnable(String enable);
+	
 	public List<Product> findByName(String name);
 	
-	@Query("SELECT cus FROM Product cus WHERE cus.name like '%iPhone%'")
+	@Query("SELECT pro FROM Product pro WHERE pro.name like '%iPhone%'")
 	public List<Product> finByIphone();
 		
-	@Query("SELECT cus FROM Product cus WHERE cus.detail  like '%Iphone X%'")
+	@Query("SELECT pro FROM Product pro WHERE pro.detail  like '%Iphone X%'")
 	public List<Product>findByLikeDetail();
 	
-	@Query("SELECT cus.name, cus.detail, cus.min(price)" + 
-			"FROM Product cus " + 
-			"GROUP BY (cus.name,cus.detail,cus.price)")
-	public List<Product> finByCostMin();
+	/*@Query("SELECT pro.name, pro.detail,min(pro.price) FROM Product pro  GROUP BY (pro.name,pro.detail,pro.price)")
+	public List<Product> finByCostMin();*/
 }

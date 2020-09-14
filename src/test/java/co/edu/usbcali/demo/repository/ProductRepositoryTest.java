@@ -34,7 +34,26 @@ class ProductRepositoryTest {
 	@Autowired
 	ProductRepository productRepositoryTest;
 			
+	
+	
 	@Test
+	@Transactional
+	@Order(1)
+	void delete() {		
+		log.info("update");
+	
+		Optional<Product> productOptional=productRepositoryTest.findById(idPro);
+		
+		//Siga si es true. Quiere decir que existe
+		assertTrue(productOptional.isPresent(),"El customer no existe");
+		
+		Product product=productOptional.get();
+		
+		productRepositoryTest.delete(product);		
+	}
+	@Test
+	@Transactional
+	@Order(2)
 	void save() {
 		
 		Optional<Product> productOptional=productRepositoryTest.findById(idPro);
@@ -57,7 +76,7 @@ class ProductRepositoryTest {
 
 	@Test
 	@Transactional
-	@Order(2)
+	@Order(3)
 	void findById() {
 		log.info("findById");
 		Optional<Product> productOptional=productRepositoryTest.findById(idPro);
@@ -70,7 +89,7 @@ class ProductRepositoryTest {
 	
 	@Test
 	@Transactional
-	@Order(3)
+	@Order(4)
 	void update() {
 		log.info("update");
 		Optional<Product> productOptional=productRepositoryTest.findById(idPro);
@@ -81,26 +100,12 @@ class ProductRepositoryTest {
 		
 		Product product=productOptional.get();
 		
-		product.setEnable("N");
+		product.setEnable("Y");
 		
 		productRepositoryTest.save(product);		
 	}
 	
-	@Test
-	@Transactional
-	@Order(4)
-	void delete() {		
-		log.info("update");
-	
-		Optional<Product> productOptional=productRepositoryTest.findById(idPro);
-		
-		//Siga si es true. Quiere decir que existe
-		assertTrue(productOptional.isPresent(),"El customer no existe");
-		
-		Product product=productOptional.get();
-		
-		productRepositoryTest.delete(product);		
-	}
+
 	
 	@Test
 	@Transactional
@@ -178,10 +183,10 @@ class ProductRepositoryTest {
 			log.info("Detalle:"+product.getDetail());
 		});
 	}
-	
+	/*
 	@Test
 	@Transactional
-	@Order(9)
+	@Order(10)
 	void finByCostMin() {
 		List<Product> products = productRepositoryTest.finByCostMin();
 		assertFalse(products.isEmpty());
@@ -190,5 +195,5 @@ class ProductRepositoryTest {
 			log.info("Name:"+product.getName());
 			log.info("Detalle:"+product.getDetail());
 		});
-	}
+	}*/
 }
