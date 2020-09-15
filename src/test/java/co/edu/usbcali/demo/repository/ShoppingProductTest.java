@@ -20,8 +20,6 @@ import co.edu.usbcali.demo.domain.Product;
 import co.edu.usbcali.demo.domain.ShoppingCart;
 
 
-
-
 @SpringBootTest
 @Rollback(false)
 @TestMethodOrder(OrderAnnotation.class)
@@ -88,16 +86,17 @@ class ShoppingProductTest {
 	@Transactional
 	@Order(2)
 	void finById() {
-		sphrId=21;
+		//sphrId=1;
 		Optional<ShoppingProduct> shoppingProductOptional = shoppingProductRepository.findById(sphrId);
 		assertNotNull(shoppingProductOptional.isPresent(),"El ShoppingProduct con ID "+sphrId+" No existe \n Fallo Correctamente");
+		log.info("Id encontrado");
 		
 	}
 	@Test
 	@Transactional
 	@Order(3)
 	void update() {
-		sphrId=1;
+		//sphrId=1;
 		Optional<ShoppingProduct> shoppingProductOptional = shoppingProductRepository.findById(sphrId);
 		
 		assertNotNull(shoppingProductOptional.isPresent(),"El ShoppingProduct con ID "+sphrId+" No existe \n Fallo Correctamente");
@@ -113,7 +112,7 @@ class ShoppingProductTest {
 	@Order(4)
 	void delete() {
 		
-		sphrId=1;
+		//sphrId=1;
 				
 		Optional<ShoppingProduct> shoppingProductOptional = shoppingProductRepository.findById(sphrId);
 		
