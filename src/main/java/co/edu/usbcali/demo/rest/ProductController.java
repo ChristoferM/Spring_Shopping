@@ -8,12 +8,13 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-
+import co.edu.usbcali.demo.domain.Customer;
 import co.edu.usbcali.demo.domain.Product;
-
+import co.edu.usbcali.demo.dto.CustomerDTO;
 import co.edu.usbcali.demo.dto.ProductDTO;
 import co.edu.usbcali.demo.repository.ProductRepository;
 import co.edu.usbcali.demo.mapper.ProductMapper;
@@ -30,7 +31,27 @@ public class ProductController {
 	ProductMapper productMapper;
 	
 	
-
+	@RequestMapping("/save")
+	public ResponseEntity<?> save(@RequestBody ProductDTO productDTO){
+		//El DTO son los datos que necesitamos 
+		//el la clase es la que contiene todos los datos incluyendo datos que el usuario no necesita ver Por ejemplo ID
+		try {
+			
+			Product product=productMapper.toCustomer(productDTO);
+			
+			product=productRepository.save(product);
+			
+			productDTO=productMapper.toProductDTO(product);
+			
+			return ResponseEntity.ok().body(productDTO); 
+			
+		}catch (Exception e) {
+			// TODO: handle exception
+			log.error(e.getMessage(), e);
+			return ResponseEntity.ok().body("Product  Not Found");
+		}
+		
+	}
 	@RequestMapping("/finByAll")
 	public ResponseEntity<?> finByAll() {
 		// http://localhost:9090/api/product/finByAll

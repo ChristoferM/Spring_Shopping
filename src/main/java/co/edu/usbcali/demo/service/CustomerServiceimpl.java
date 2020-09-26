@@ -3,56 +3,139 @@ package co.edu.usbcali.demo.service;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
+
 import co.edu.usbcali.demo.domain.Customer;
+import co.edu.usbcali.demo.repository.CustomerRepository;
 
+
+@Service
+@Scope("singleton")
 public class CustomerServiceimpl  implements CustomerService{
-
+	
+	@Autowired
+	CustomerRepository customerRepository;  
+	
+	
+	//ORG SpringFramework-> transacional
+		
 	@Override
+	@Transactional(readOnly = true)
 	public List<Customer> findAll() {
 		// TODO Auto-generated method stub
-		return null;
+		return customerRepository.findAll();
 	}
 
 	@Override
+	@Transactional(readOnly = true)
+	public Optional<Customer> findById(String id) throws Exception {
+		// TODO Auto-generated method stub
+		return customerRepository.findById(id);
+	}
+	
+	@Override
+	@Transactional(readOnly = true)
+	public Long count() {
+		// TODO Auto-generated method stub
+		return customerRepository.count();
+	}
+	
+	
+	@Override 						
+	@Transactional(readOnly = true, propagation = Propagation.REQUIRED, rollbackFor =Exception.class)
 	public Customer save(Customer entity) throws Exception {
-		// TODO Auto-generated method stub
-		return null;
+		validate(entity);
+		
+		
+		if(customerRepository.existsById(entity.getEmail() ) ) {
+			throw new Exception("El Customer ya con id "+entity.getEmail() +" Ya existe");
+		}
+		
+		return customerRepository.save(entity);  
 	}
 
 	@Override
+	@Transactional(readOnly = true, propagation = Propagation.REQUIRED, rollbackFor =Exception.class)
 	public Customer update(Customer entity) throws Exception {
-		// TODO Auto-generated method stub
-		return null;
+		validate(entity);
+		if(customerRepository.existsById(entity.getEmail())==false ) {
+			throw new Exception("El Customer ya con id "+entity.getEmail() +" No existe");
+		}
+		return customerRepository.save(entity);
 	}
 
 	@Override
 	public void delete(Customer entity) throws Exception {
-		// TODO Auto-generated method stub
+		if (entity==null) {
+			throw new Exception("El Customer es nulo");
+		}
+		if(entity.getEmail()==null || entity.getEmail() .isBlank()==true) {
+			throw new Exception("La direccion es obligatoria ");
+			
+		}
+		if(customerRepository.existsById(entity.getEmail())==false ) {
+			throw new Exception("El Customer ya con id "+entity.getEmail() +" No existe (No se puede eliminar)");
+		}
+		
+		customerRepository.findById(entity.getEmail()).ifPresent(customer->{
+			if(customer.getShoppingCarts() !=null && customer.getShoppingCarts().isEmpty()==false ) {
+				//isEmpty()-> verifica que esta vacio
+				throw new RuntimeException("El customer con id "+ entity.getEmail()+" Tiene ShoppingCarts, No se puede borrar");
+				}
+			});
+		customerRepository.deleteById(entity.getEmail());
 		
 	}
 
 	@Override
 	public void deleteById(String id) throws Exception {
-		// TODO Auto-generated method stub
+		if(id==null || id.isBlank()==true) {
+			throw new Exception("El Email es obligatoria");
+		}
+		
+		if(customerRepository.existsById(id)) {
+			delete(customerRepository.findById(id).get());
+		}
 		
 	}
 
-	@Override
-	public Optional<Customer> findById(String id) throws Exception {
-		// TODO Auto-generated method stub
-		return null;
-	}
+	
 
 	@Override
 	public void validate(Customer entity) throws Exception {
-		// TODO Auto-generated method stub
+		//  // throws Exception {-> especifica que se pueden devolver excepciones
+		if(entity ==null) {
+			throw new Exception("El Customer Es nullo");
+			
+		} 	
+		if(entity.getAddress()==null || entity.getAddress().isBlank()==true) {
+			throw new Exception("La direccion es obligatoria ");
+			
+		}
+		
+		if(entity.getEmail()==null || entity.getEmail() .isBlank()==true) {
+		throw new Exception("La direccion es obligatoria ");
+		
+		}
+		if(entity.getEnable()==null || entity.getEnable().isBlank()==true) {
+			throw new Exception("La direccion es obligatoria ");
+			
+		}
+		if(entity.getName()==null  || entity.getName() .isBlank()==true) {
+			throw new Exception("La direccion es obligatoria ");
+			
+		}
+		if(entity.getPhone()==null  || entity.getPhone() .isBlank()==true) {
+			throw new Exception("La direccion es obligatoria ");
+			
+		}
 		
 	}
 
-	@Override
-	public Long count() {
-		// TODO Auto-generated method stub
-		return null;
-	}
+
 
 }

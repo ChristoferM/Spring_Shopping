@@ -25,7 +25,8 @@ class CustomerRepositoryTest {
 	
 	private final static Logger log=LoggerFactory.getLogger(CustomerRepositoryTest.class);
 	
-	private final static String email="dgomez@vortexbird.com";
+	//private final static String email="dgomez@vortexbird.com";
+	private final static String email="fgiraudot0@economist.com";
 	
 	@Autowired
 	CustomerRepository customerRepository;

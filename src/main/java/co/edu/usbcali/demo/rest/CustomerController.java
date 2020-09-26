@@ -18,7 +18,7 @@ import co.edu.usbcali.demo.mapper.CustomerMapper;
 import co.edu.usbcali.demo.repository.CustomerRepository;
 import co.edu.usbcali.demo.domain.Customer;
 
-@RestController // Servicio
+@RestController // Servicio 
 @RequestMapping("/api/customer") // Forma de llamar datos
 public class CustomerController {
 
