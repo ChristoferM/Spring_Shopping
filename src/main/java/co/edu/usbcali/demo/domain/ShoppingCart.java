@@ -41,7 +41,7 @@ public class ShoppingCart implements java.io.Serializable {
 	}
 
 	public ShoppingCart(Integer carId, Customer customer, Integer items, PaymentMethod paymentMethod,
-			List<ShoppingProduct> shoppingProducts, Long total, String enable) {
+		List<ShoppingProduct> shoppingProducts, Long total, String enable) {
 		this.carId = carId;
 		this.customer = customer;
 		this.paymentMethod = paymentMethod;
@@ -108,6 +108,8 @@ public class ShoppingCart implements java.io.Serializable {
 	public void setTotal(Long total) {
 		this.total = total;
 	}
+	
+	
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "shoppingCart")
 	public List<ShoppingProduct> getShoppingProducts() {
 		return this.shoppingProducts;

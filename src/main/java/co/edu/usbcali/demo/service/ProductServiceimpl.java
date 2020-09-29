@@ -112,6 +112,7 @@ public class ProductServiceimpl implements ProductService  {
 	@Override
 	public void validate(Product entity) throws Exception {
 		/*
+	
 	private String proId;
 	
 	private String detail;

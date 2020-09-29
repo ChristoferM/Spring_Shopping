@@ -13,8 +13,15 @@ import co.edu.usbcali.demo.domain.Customer;
 import co.edu.usbcali.demo.repository.CustomerRepository;
 
 
+//3 decoradores los cuales permiten que el spring administre 
+//@Service // indica que lo que se contiene son componentes de logica de negocio
+//@Component  -> Componente utilitario (
+//@Repository -> cuando uno crea sus propios repositorios 
+//Los tres para spring hace lo mismo
+
+
 @Service
-@Scope("singleton")
+@Scope("singleton")  
 public class CustomerServiceimpl  implements CustomerService{
 	
 	@Autowired
@@ -26,27 +33,24 @@ public class CustomerServiceimpl  implements CustomerService{
 	@Override
 	@Transactional(readOnly = true)
 	public List<Customer> findAll() {
-		// TODO Auto-generated method stub
 		return customerRepository.findAll();
 	}
 
 	@Override
 	@Transactional(readOnly = true)
 	public Optional<Customer> findById(String id) throws Exception {
-		// TODO Auto-generated method stub
 		return customerRepository.findById(id);
 	}
 	
 	@Override
 	@Transactional(readOnly = true)
 	public Long count() {
-		// TODO Auto-generated method stub
 		return customerRepository.count();
 	}
 	
 	
 	@Override 						
-	@Transactional(readOnly = true, propagation = Propagation.REQUIRED, rollbackFor =Exception.class)
+	@Transactional(readOnly = false, propagation = Propagation.REQUIRED, rollbackFor =Exception.class)
 	public Customer save(Customer entity) throws Exception {
 		validate(entity);
 		
@@ -59,7 +63,7 @@ public class CustomerServiceimpl  implements CustomerService{
 	}
 
 	@Override
-	@Transactional(readOnly = true, propagation = Propagation.REQUIRED, rollbackFor =Exception.class)
+	@Transactional(readOnly = false, propagation = Propagation.REQUIRED, rollbackFor =Exception.class)
 	public Customer update(Customer entity) throws Exception {
 		validate(entity);
 		if(customerRepository.existsById(entity.getEmail())==false ) {
@@ -69,6 +73,7 @@ public class CustomerServiceimpl  implements CustomerService{
 	}
 
 	@Override
+	@Transactional(readOnly = false, propagation = Propagation.REQUIRED, rollbackFor =Exception.class)
 	public void delete(Customer entity) throws Exception {
 		if (entity==null) {
 			throw new Exception("El Customer es nulo");
@@ -92,6 +97,7 @@ public class CustomerServiceimpl  implements CustomerService{
 	}
 
 	@Override
+	@Transactional(readOnly = false, propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
 	public void deleteById(String id) throws Exception {
 		if(id==null || id.isBlank()==true) {
 			throw new Exception("El Email es obligatoria");

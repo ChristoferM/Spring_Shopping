@@ -43,7 +43,7 @@ class PaymentMethodTest {
 		payId=paymentMethod.getPayId();
 		assertNotNull(payId,"Error El payId es nulo");
 		
-		log.info("Todo todo bien");
+		log.info("Todo bien todo bien");
 		
 	}
 	

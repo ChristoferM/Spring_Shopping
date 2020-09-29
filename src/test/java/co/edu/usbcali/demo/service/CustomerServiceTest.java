@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.Rollback;
 
+
 import co.edu.usbcali.demo.domain.Customer;
 
 
@@ -42,8 +43,9 @@ class CustomerServiceTest {
 		customer.setName("Diego Gomez");
 		customer.setPhone("316 482 4629");
 		customer.setToken("NKJH43232KJ423KJ4234");		
-
 		customerService.save(customer);
+		//customerService.save(customer);
+		
 		
 	}
 	@Test

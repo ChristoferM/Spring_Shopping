@@ -24,7 +24,7 @@ class ProductServiceTest {
 
 	private final static Logger log=LoggerFactory.getLogger(ProductServiceTest.class);
 		
-	private final static String idPro="APPL4";
+	private final static String idPro="APPL666";
 	
 	@Autowired
 	ProductService productService;
@@ -37,7 +37,7 @@ class ProductServiceTest {
 		
 		Product product = new Product();
 		product.setProId(idPro);
-		product.setName("iPhone X");
+		product.setName("iPhone 50 000");
 		product.setPrice(4500000);
 		product.setDetail("Iphone X la nueva Generación");
 		product.setImage("https://shopping-cart-usb.s3.amazonaws.com/images/iphone-11-pro-select-2019-family.jpeg");
