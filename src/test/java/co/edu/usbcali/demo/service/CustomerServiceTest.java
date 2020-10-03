@@ -72,7 +72,7 @@ class CustomerServiceTest {
 		
 		customer.setEnable("N");
 		
-		customerService.save(customer);		
+		customerService.update(customer);		
 	}
 	@Test
 	@Order(4)

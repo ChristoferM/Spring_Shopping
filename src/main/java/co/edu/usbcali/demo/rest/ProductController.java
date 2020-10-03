@@ -3,11 +3,15 @@ package co.edu.usbcali.demo.rest;
 import java.util.List;
 import java.util.Optional;
 
+import javax.validation.Valid;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -16,7 +20,8 @@ import co.edu.usbcali.demo.domain.Customer;
 import co.edu.usbcali.demo.domain.Product;
 import co.edu.usbcali.demo.dto.CustomerDTO;
 import co.edu.usbcali.demo.dto.ProductDTO;
-import co.edu.usbcali.demo.repository.ProductRepository;
+//import co.edu.usbcali.demo.repository.ProductRepository;
+import co.edu.usbcali.demo.service.ProductService;
 import co.edu.usbcali.demo.mapper.ProductMapper;
 
 @RestController // Servicio
@@ -25,41 +30,51 @@ public class ProductController {
 	private final static Logger log = LoggerFactory.getLogger(ProductController.class);
 
 	@Autowired
-	ProductRepository productRepository;
+	ProductService productService;
 	
 	@Autowired
 	ProductMapper productMapper;
 	
 	
 	@RequestMapping("/save")
-	public ResponseEntity<?> save(@RequestBody ProductDTO productDTO){
+	public ResponseEntity<?> save(@Valid @RequestBody ProductDTO productDTO)  throws Exception{
 		//El DTO son los datos que necesitamos 
 		//el la clase es la que contiene todos los datos incluyendo datos que el usuario no necesita ver Por ejemplo ID
-		try {
-			
 			Product product=productMapper.toCustomer(productDTO);
 			
-			product=productRepository.save(product);
+			product = productService.save(product);
 			
 			productDTO=productMapper.toProductDTO(product);
 			
 			return ResponseEntity.ok().body(productDTO); 
-			
-		}catch (Exception e) {
-			// TODO: handle exception
-			log.error(e.getMessage(), e);
-			return ResponseEntity.ok().body("Product  Not Found");
+		
 		}
+
+	
+	@PutMapping("/update")
+	public ResponseEntity<?> update(@Valid @RequestBody ProductDTO productDTO) throws Exception {
+		//El DTO son los datos que necesitamos 
+		//el la clase es la que contiene todos los datos incluyendo datos que el usuario no necesita ver Por ejemplo ID
+			Product product=productMapper.toCustomer(productDTO);
+			
+			product=productService.update(product);
+			
+			productDTO=productMapper.toProductDTO(product);
+			
+			return ResponseEntity.ok().body(productDTO); 
+	
 		
 	}
+	
+	
+
+	
 	@RequestMapping("/finByAll")
-	public ResponseEntity<?> finByAll() {
+	public ResponseEntity<?> finByAll() throws Exception{
 		// http://localhost:9090/api/product/finByAll
-		try {
-			List<Product> products = productRepository.findAll();
-			
+			List<Product> products = productService.findAll();
 			List<ProductDTO> productDTOs = productMapper.toProductDTO(products);
-						 
+			 
 			/*
 			 * List<ProductDTO> productDTOs= new ArrayList<>();
 			 Product product = new Product();
@@ -74,22 +89,17 @@ public class ProductController {
 			 * });
 			 */
 			return ResponseEntity.ok().body(productDTOs);
-		} catch (Exception e) {
-			// TODO: handle exception
-			log.error(e.getMessage(), e);
-			return ResponseEntity.ok().body("Customer  Not Found");
-		}
+	
 	
 	}
 	
 	
-	
 	//APPL45
 	@RequestMapping("/finById/{proId}")
-	public ResponseEntity<?> finById(@PathVariable("proId") String proId) {
+	public ResponseEntity<?> finById(@PathVariable("proId") String proId)throws Exception{
 		// http://localhost:9090/api/customer/finById/APPL45
-		try {
-			Optional<Product> productOptional = productRepository.findById(proId);
+	
+			Optional<Product> productOptional = productService.findById(proId);
 			if (productOptional.isPresent() == false) {
 				return ResponseEntity.ok().body("Customer Not Found");
 			}
@@ -111,14 +121,29 @@ public class ProductController {
 			 */
 
 			return ResponseEntity.ok().body(productDTO);
-		}
-		catch (Exception e) {
-			// TODO: handle exception
-			log.error(e.getMessage(), e);
-			return ResponseEntity.badRequest().body(e.getMessage());
+	}
+	
+	@DeleteMapping("/delete/{proId}")
+	public ResponseEntity<?> delete(@PathVariable("proId") String proId)throws Exception{
+		// http://localhost:9090/api/customer/delete/{}
+		
+		productService.deleteById(proId);
+		
+		return ResponseEntity.ok().build();
+		/*		//El DTO son los datos que necesitamos 
+		//el la clase es la que contiene todos los datos incluyendo datos que el usuario no necesita ver Por ejemplo ID
+		Optional<Customer> customerOptional = customerService.findById(email);
+		if (customerOptional.isPresent() == false) {
+			throw new Exception("El customer Con ID:"+email+ " No Existe!;Error");
 		}
 
+		Customer customer = customerOptional.get();
+		customerService.delete(customer);
+		}*/
 	}
+
+
+		
 	
 	
 }

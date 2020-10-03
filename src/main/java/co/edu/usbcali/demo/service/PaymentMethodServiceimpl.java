@@ -20,7 +20,11 @@ public class PaymentMethodServiceimpl implements PaymentMethodService{
 	
 	@Autowired
 	PaymentMethodRepository paymentMethodRepository;
-	
+
+	/*
+	 * @Transactional(readOnly = true) -> Solo lectura
+	 * 
+	 * */	
 	@Override
 	@Transactional(readOnly = true)
 	public List<PaymentMethod> findAll() {
@@ -74,10 +78,12 @@ public class PaymentMethodServiceimpl implements PaymentMethodService{
 		if(paymentMethodRepository.existsById(entity.getPayId())==false) {
 			throw new Exception("El paymentMethod con id:"+entity.getPayId()+" no existe. No se puede borrar");
 		}
-		
+		//Validacion de las referencia de la tabla ShoopingCart
 		paymentMethodRepository.findById(entity.getPayId()).ifPresent(paymentMethod->{
 			if(paymentMethod.getShoppingCarts()!=null && paymentMethod.getShoppingCarts().isEmpty()==false) {
-				throw new RuntimeException("El paymentMethod con id:"+entity.getPayId()+" tiene ShoppingCart que no se puede borrar");
+				//isEmpty()-> verifica que esta vacio 
+				// Si es vacio, retorna  true, si tiene datos entonces es falso
+				throw new RuntimeException("El Paymen con Id "+ entity.getPayId()+" Tiene ShoppingCarts;Error No se puede borrar");
 			}
 		});
 		
@@ -87,7 +93,7 @@ public class PaymentMethodServiceimpl implements PaymentMethodService{
  	@Override
 	@Transactional(readOnly = false,propagation = Propagation.REQUIRED,rollbackFor = Exception.class)
 	public void deleteById(Integer id) throws Exception {
-		if(id == null && id<0){
+		if(id == null || id<0){
 			throw new Exception("El payId es obligatorio");
 		}
 		
@@ -103,9 +109,9 @@ public class PaymentMethodServiceimpl implements PaymentMethodService{
 			throw new Exception("El PaymentMethod es nulo");
 		}
 		
-		//if(entity.getPayId()==null || entity.getPayId()<0) {
-		//	throw new Exception("El PayId es obligatoria");
-		//}
+		/*if(entity.getPayId()==null ) {
+		//	throw new Exception("El PayId es obligatoria");}
+		 * */
 		
 		if(entity.getName()==null || entity.getName().isBlank()==true) {
 			throw new Exception("El Name es obligatoria");

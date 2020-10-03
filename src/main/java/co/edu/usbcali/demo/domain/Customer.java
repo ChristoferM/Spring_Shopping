@@ -9,6 +9,11 @@ import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+//--
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Size;
 
 
 
@@ -18,26 +23,37 @@ public class Customer implements java.io.Serializable {
 	
 	private static final long serialVersionUID = 1L;
 	
-	@Id
-	@Column(name = "email", unique = true, nullable = false)
+	@NotBlank
+	@Email
+	@Size( min=3 , max=255)
 	private String email;
 	
-	@Column(name = "address", nullable = false)
+	@NotBlank
+	@Size( min=3 , max=255)
+	@NotEmpty //-> no sea enblanco
 	private String address;
 	
-	@Column(name = "enable", nullable = false)
+	@NotBlank
+	@Size( min=1 , max=1)
+	@NotEmpty //-> no sea enblanco
 	private String enable;
 	
-	@Column(name = "name", nullable = false)
+	@NotBlank
+	@Size( min=3 , max=255)
+	@NotEmpty //-> no sea enblanco
 	private String name;
 	
-	@Column(name = "phone", nullable = false)
+	@NotBlank
+	@Size( min=3 , max=255)
+	@NotEmpty //-> no sea enblanco
 	private String phone;
 	
-	@Column(name = "token", nullable = false)
+	@NotBlank
+	@Size( max=255)
+	@NotEmpty //-> no sea enblanco
 	private String token;
 	
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "customer")
+	
 	private List<ShoppingCart> shoppingCarts = new ArrayList<ShoppingCart>(0);
 
 	public Customer() {
@@ -54,65 +70,72 @@ public class Customer implements java.io.Serializable {
 		this.shoppingCarts = shoppingCarts;
 	}
 
-	
+	@Id
+	@Column(name = "email", unique = true, nullable = false)
 	public String getEmail() {
 		return this.email;
 	}
-
-	public void setEmail(String email) {
-		this.email = email;
-	}
-
 	
+	@Column(name = "address", nullable = false)
 	public String getAddress() {
 		return this.address;
+	}
+	
+	@Column(name = "enable", nullable = false)
+	public void setEnable(String enable) {
+		this.enable = enable;
+	}
+
+	@Column(name = "name", nullable = false)
+	public String getName() {
+		return this.name;
+	}
+	
+	@Column(name = "phone", nullable = false)
+	public String getPhone() {
+		return this.phone;
+	}
+
+	@Column(name = "token", nullable = false)
+	public String getToken() {
+		return this.token;
+	}
+	
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "customer")
+	public List<ShoppingCart> getShoppingCarts() {
+		return this.shoppingCarts;
+	}
+	
+	
+
+	
+	public void setEmail(String email) {
+		this.email = email;
 	}
 
 	public void setAddress(String address) {
 		this.address = address;
 	}
-
 	
 	public String getEnable() {
 		return this.enable;
 	}
-
-	public void setEnable(String enable) {
-		this.enable = enable;
-	}
-
 	
-	public String getName() {
-		return this.name;
-	}
-
 	public void setName(String name) {
 		this.name = name;
 	}
 
 	
-	public String getPhone() {
-		return this.phone;
-	}
-
 	public void setPhone(String phone) {
 		this.phone = phone;
 	}
 
-	
-	public String getToken() {
-		return this.token;
-	}
 
 	public void setToken(String token) {
 		this.token = token;
 	}
 
 	
-	public List<ShoppingCart> getShoppingCarts() {
-		return this.shoppingCarts;
-	}
-
 	public void setShoppingCarts(List<ShoppingCart> shoppingCarts) {
 		this.shoppingCarts = shoppingCarts;
 	}

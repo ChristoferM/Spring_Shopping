@@ -2,6 +2,11 @@ package co.edu.usbcali.demo.service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
+
+import javax.validation.ConstraintViolation;
+import javax.validation.ConstraintViolationException;
+import javax.validation.Validator;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
@@ -27,6 +32,8 @@ public class CustomerServiceimpl  implements CustomerService{
 	@Autowired
 	CustomerRepository customerRepository;  
 	
+	@Autowired
+	Validator validator;
 	
 	//ORG SpringFramework-> transacional
 		
@@ -105,6 +112,8 @@ public class CustomerServiceimpl  implements CustomerService{
 		
 		if(customerRepository.existsById(id)) {
 			delete(customerRepository.findById(id).get());
+		}else {
+			throw new Exception("El Customer Con ID "+id+" No Existe");
 		}
 		
 	}
@@ -117,7 +126,14 @@ public class CustomerServiceimpl  implements CustomerService{
 		if(entity ==null) {
 			throw new Exception("El Customer Es nullo");
 			
-		} 	
+		}
+		Set<ConstraintViolation<Customer>> constraintValidator=validator.validate(entity);
+		if(constraintValidator.isEmpty()==false) {
+			throw new ConstraintViolationException(constraintValidator);
+			
+		}
+		
+		/*
 		if(entity.getAddress()==null || entity.getAddress().isBlank()==true) {
 			throw new Exception("La direccion es obligatoria ");
 			
@@ -138,7 +154,7 @@ public class CustomerServiceimpl  implements CustomerService{
 		if(entity.getPhone()==null  || entity.getPhone() .isBlank()==true) {
 			throw new Exception("La direccion es obligatoria ");
 			
-		}
+		}*/
 		
 	}
 

@@ -2,6 +2,11 @@ package co.edu.usbcali.demo.service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
+
+import javax.validation.Validator;
+import javax.validation.ConstraintViolation;
+import javax.validation.ConstraintViolationException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
@@ -9,6 +14,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import co.edu.usbcali.demo.domain.Customer;
 import co.edu.usbcali.demo.domain.Product;
 import co.edu.usbcali.demo.repository.ProductRepository;
 
@@ -20,11 +26,54 @@ public class ProductServiceimpl implements ProductService  {
 	@Autowired
 	ProductRepository productRepository;
 	
+	@Autowired
+	Validator validator;
+	
+	
+
+	@Override
+	public void validate(Product entity) throws Exception {
+		/*
+	private String proId; private String detail;
+	 private String enable; private String image; private String name; private Integer price;
+	*/
+		if(entity ==null) {
+			throw new Exception("El Producto Es nullo");
+			
+		} 	
+		if(entity.getDetail()==null || entity.getDetail().isBlank()==true) {
+			throw new Exception("Detalles Del producto son obligatorios ");
+			
+		}
+		
+		if(entity.getImage()==null || entity.getImage().isBlank()==true) {
+		throw new Exception("Necesita La imagen de referencia  ");
+		
+		}
+		
+		if(entity.getName()==null  || entity.getName() .isBlank()==true) {
+			throw new Exception("La direccion es obligatoria ");
+			
+		}
+		if(entity.getPrice()==null ){//|| entity.getPrice().isBlank()==true) {
+			throw new Exception("El precio del producto es obligatorio ");
+			
+		}
+		
+		
+		Set<ConstraintViolation<Product>> constraintValidator=validator.validate(entity);
+		if(constraintValidator.isEmpty()==false) {
+			//El .isEmpty  es falso Si el Entity No esta vacio
+			throw new ConstraintViolationException(constraintValidator);
+			
+		}
+		
+	}
+
 	
 	@Override
 	@Transactional(readOnly = true)
 	public List<Product> findAll() {
-		// TODO Auto-generated method stub
 		return  productRepository.findAll();
 	}
 
@@ -55,6 +104,7 @@ public class ProductServiceimpl implements ProductService  {
 		
 		return productRepository.save(entity);  
 	}
+
 
 	@Override
 	@Transactional(readOnly = false, propagation = Propagation.REQUIRED, rollbackFor =Exception.class)
@@ -108,48 +158,6 @@ public class ProductServiceimpl implements ProductService  {
 	}
 
 	
-
-	@Override
-	public void validate(Product entity) throws Exception {
-		/*
-	
-	private String proId;
-	
-	private String detail;
-	
-	private String enable;
-	
-	private String image;
-	
-	private String name;
-	
-	private Integer price;
-	*/
-		if(entity ==null) {
-			throw new Exception("El Producto Es nullo");
-			
-		} 	
-		if(entity.getDetail()==null || entity.getDetail().isBlank()==true) {
-			throw new Exception("Detalles Del producto son obligatorios ");
-			
-		}
-		
-		if(entity.getImage()==null || entity.getImage().isBlank()==true) {
-		throw new Exception("Necesita La imagen de referencia  ");
-		
-		}
-		
-		if(entity.getName()==null  || entity.getName() .isBlank()==true) {
-			throw new Exception("La direccion es obligatoria ");
-			
-		}
-		if(entity.getPrice()==null ){//|| entity.getPrice().isBlank()==true) {
-			throw new Exception("El precio del producto es obligatorio ");
-			
-		}
-		
-		
-	}
 
 	
 }

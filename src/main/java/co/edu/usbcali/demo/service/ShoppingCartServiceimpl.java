@@ -41,11 +41,11 @@ public class ShoppingCartServiceimpl implements ShoppingCartService {
 	@Override
 	@Transactional(readOnly = false,propagation = Propagation.REQUIRED,rollbackFor = Exception.class)
 	public ShoppingCart save(ShoppingCart entity) throws Exception {
+		
 		validate(entity);
 		
 		/*if(shoppingCartRepository.existsById(entity.getCarId())) {
 			throw new Exception("El shoppingCart con id:"+entity.getCarId()+" ya existe");
-
 		}
 		*/
  		return shoppingCartRepository.save(entity);
@@ -64,6 +64,7 @@ public class ShoppingCartServiceimpl implements ShoppingCartService {
 		return shoppingCartRepository.save(entity);
 	}
 
+	
 	@Override
 	@Transactional(readOnly = false,propagation = Propagation.REQUIRED,rollbackFor = Exception.class)
 	public void delete(ShoppingCart entity) throws Exception {
@@ -104,12 +105,20 @@ public class ShoppingCartServiceimpl implements ShoppingCartService {
 
 	@Override
 	public void validate(ShoppingCart entity) throws Exception {
+		/*private Integer carId; 	x
+		private Long total; x
+		private Integer items;
+		private Customer customer;// Objeto de tipo customer ->FK Email
+		private PaymentMethod paymentMethod;// Objeto de tipo PaymentMethod ->FK payID
+		private String enable ;
+		private List<ShoppingProduct> shoppingProducts = new ArrayList<ShoppingProduct>(0);
+*/
 		if(entity==null) {
-			throw new Exception("El customer es nulo");
+			throw new Exception("El ShoppingCart es nulo");
 		}
 		
 		if(entity.getItems()==null || entity.getItems()<0) {
-			throw new Exception("El item es obligatoria");
+			throw new Exception("El ShoppingCart No presenta Items");
 		}
 		
 		if(entity.getTotal()==null || entity.getTotal()<0) {
@@ -119,6 +128,16 @@ public class ShoppingCartServiceimpl implements ShoppingCartService {
 		if(entity.getEnable()==null || entity.getEnable().isBlank()==true) {
 			throw new Exception("El Enable es obligatoria");
 		}
+		
+		// ------------------------------- 
+		if(entity.getCustomer()==null ) {
+		throw new Exception("El Customer de ShoppingCart es nulo");
+		
+		}if(entity.getPaymentMethod()==null ) {
+		throw new Exception("El PaymentMethod  de ShoppingCart es nulo");
+
+		}
+		//	-------------------------------
 		
 	}
 

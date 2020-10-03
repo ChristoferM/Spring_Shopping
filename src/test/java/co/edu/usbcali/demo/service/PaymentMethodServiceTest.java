@@ -88,9 +88,9 @@ class PaymentMethodServiceTest {
 		
 		PaymentMethod paymentMethod=customerOptional.get();
 		
-		paymentMethod.setEnable("Y");
+		paymentMethod.setEnable("N");
 		
-		paymentMethodService.save(paymentMethod);		
+		paymentMethodService.update(paymentMethod);		
 	}
 	@Test
 	@Transactional 

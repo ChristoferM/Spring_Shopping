@@ -87,7 +87,7 @@ public class ShoppingCartServiceTest {
 		ShoppingCart shoppingCart=shoppingCartServiceOptional.get();
 		shoppingCart.setEnable("N");
 		
-		shoppingCartService.save(shoppingCart);	
+		shoppingCartService.update(shoppingCart);	
 	}
 
 	@Test

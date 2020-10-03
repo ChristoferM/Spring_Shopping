@@ -33,7 +33,7 @@ class ProductServiceTest {
 	@Test
 	@Order(1)
 	void save() throws Exception {
-		log.info("save");
+		log.info("SAVE--- SERVICE TEST");
 		
 		Product product = new Product();
 		product.setProId(idPro);

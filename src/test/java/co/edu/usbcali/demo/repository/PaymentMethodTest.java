@@ -66,7 +66,7 @@ class PaymentMethodTest {
 		assertTrue(paymentMethodRepository.findById(payId).isPresent());
 		
 		PaymentMethod paymentMethod=paymentMethodRepository.findById(payId).get();
-		paymentMethod.setEnable("Y");
+		paymentMethod.setEnable("N");
 		
 		
 		}
