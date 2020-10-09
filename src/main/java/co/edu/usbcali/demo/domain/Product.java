@@ -38,7 +38,7 @@ public class Product implements java.io.Serializable {
 	
 	
 	@NotNull
-	@Min(0)
+	@Min(1)
 	private Integer price;
 	
 	@NotBlank

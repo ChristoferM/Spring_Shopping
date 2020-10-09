@@ -152,8 +152,9 @@ public class ProductServiceimpl implements ProductService  {
 	
 	if(productRepository.existsById(id)) {
 		delete(productRepository.findById(id).get());
+	}else {
+		throw new Exception("El product con id :" + id + " no existe");
 	}
-	
 		
 	}
 

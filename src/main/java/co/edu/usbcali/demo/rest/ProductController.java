@@ -16,9 +16,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import co.edu.usbcali.demo.domain.Customer;
+
 import co.edu.usbcali.demo.domain.Product;
-import co.edu.usbcali.demo.dto.CustomerDTO;
 import co.edu.usbcali.demo.dto.ProductDTO;
 //import co.edu.usbcali.demo.repository.ProductRepository;
 import co.edu.usbcali.demo.service.ProductService;

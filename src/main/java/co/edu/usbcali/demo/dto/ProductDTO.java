@@ -1,18 +1,41 @@
 package co.edu.usbcali.demo.dto;
 
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+
 public class ProductDTO {
 
+	@NotBlank
+	@Size( min=3 , max=255)
 	private String proId;
 	
-	private String detail;
-	
-	private String enable;
-	
-	private String image;
-	
+	@NotBlank
+	@Size( min=3 , max=255)
+	@NotEmpty //-> no sea enblanco
 	private String name;
 	
+	
+	@NotNull
+	@Min(1)
 	private Integer price;
+	
+	@NotBlank
+	@Size( min=3 , max=255)
+	@NotEmpty //-> no sea enblanco
+	private String detail;
+	
+	@NotBlank
+	@Size( min=1 , max=1)
+	@NotEmpty //-> no sea enblanco
+	private String enable;
+	
+	@NotBlank
+	@Size( min=5 , max=255)
+	@NotEmpty //-> no sea enblanco
+	private String image;
 
 	public ProductDTO() {
 		super();

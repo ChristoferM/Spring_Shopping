@@ -3,6 +3,8 @@ package co.edu.usbcali.demo.service;
 import java.util.List;
 import java.util.Optional;
 
+import javax.validation.Validator;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
@@ -21,10 +23,13 @@ public class PaymentMethodServiceimpl implements PaymentMethodService{
 	@Autowired
 	PaymentMethodRepository paymentMethodRepository;
 
+	@Autowired
+	Validator validator;
 	/*
 	 * @Transactional(readOnly = true) -> Solo lectura
 	 * 
 	 * */	
+	
 	@Override
 	@Transactional(readOnly = true)
 	public List<PaymentMethod> findAll() {
@@ -99,6 +104,8 @@ public class PaymentMethodServiceimpl implements PaymentMethodService{
 		
 		if(paymentMethodRepository.existsById(id)) {
 			delete(paymentMethodRepository.findById(id).get());
+		}else {
+			throw new Exception("El PaymentMethod con id :" + id + " no existe");
 		}
 
 	}

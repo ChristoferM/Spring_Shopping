@@ -36,6 +36,7 @@ public class CustomerDTO {
 	@Size( max=255)
 	@NotEmpty //-> no sea enblanco
 	private String token;
+
 	
 	public CustomerDTO() {
 		super();

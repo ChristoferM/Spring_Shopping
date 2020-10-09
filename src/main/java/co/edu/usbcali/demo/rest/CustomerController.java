@@ -4,6 +4,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -18,14 +19,14 @@ import java.util.Optional;
 
 import javax.validation.Valid;
 
+import co.edu.usbcali.demo.domain.Customer;
 import co.edu.usbcali.demo.dto.CustomerDTO;
 import co.edu.usbcali.demo.mapper.CustomerMapper;
-import co.edu.usbcali.demo.repository.CustomerRepository;
 import co.edu.usbcali.demo.service.CustomerService;
-import co.edu.usbcali.demo.domain.Customer;
-
+import co.edu.usbcali.demo.repository.CustomerRepository;
 @RestController // Servicio 
 @RequestMapping("/api/customer") // Forma de llamar datos
+@CrossOrigin
 public class CustomerController {
 
 	private final static Logger log = LoggerFactory.getLogger(CustomerController.class);
