@@ -27,8 +27,8 @@ public class Product implements java.io.Serializable {
 	
 	private static final long serialVersionUID = 1L;
 	
-	@NotBlank
-	@Size( min=3 , max=255)
+	//@NotBlank
+	//@Size( min=3 , max=255)
 	private String proId;
 	
 	@NotBlank
