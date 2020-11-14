@@ -40,16 +40,16 @@ public class ShoppingCart implements java.io.Serializable {
 	public ShoppingCart() {
 	}
 
-	public ShoppingCart(Integer carId, Customer customer, Integer items, PaymentMethod paymentMethod,
-		List<ShoppingProduct> shoppingProducts, Long total, String enable) {
+	public ShoppingCart(Integer carId, Customer customer, PaymentMethod paymentMethod, Integer items, Long total,
+			String enable, List<ShoppingProduct> shoppingProducts) {
+		super();
 		this.carId = carId;
 		this.customer = customer;
 		this.paymentMethod = paymentMethod;
 		this.items = items;
 		this.total = total;
-		this.enable=enable;
+		this.enable = enable;
 		this.shoppingProducts = shoppingProducts;
-		
 	}
 
 	@Id

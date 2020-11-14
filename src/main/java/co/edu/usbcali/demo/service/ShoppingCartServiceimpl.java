@@ -133,10 +133,11 @@ public class ShoppingCartServiceimpl implements ShoppingCartService {
 		if(entity.getCustomer()==null ) {
 		throw new Exception("El Customer de ShoppingCart es nulo");
 		
-		}if(entity.getPaymentMethod()==null ) {
+		}
+		/*if(entity.getPaymentMethod()==null ) {
 		throw new Exception("El PaymentMethod  de ShoppingCart es nulo");
 
-		}
+		}*/
 		//	-------------------------------
 		
 	}
