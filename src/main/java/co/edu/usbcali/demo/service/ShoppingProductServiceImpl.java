@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import co.edu.usbcali.demo.domain.Product;
 import co.edu.usbcali.demo.domain.ShoppingProduct;
 import co.edu.usbcali.demo.repository.ShoppingProductRepository;
 
@@ -137,9 +138,18 @@ public class ShoppingProductServiceImpl implements ShoppingProductService {
         return shoppingProductRepository.findById(shprId);
     }
 
+   
 	@Override
 	@Transactional(readOnly = true)
 	public Long totalShoppingProductByShoppingCart(Integer carId) {	
 		return shoppingProductRepository.totalShoppingProductByShoppingCart(carId);
+	}
+
+	@Override
+	public ShoppingProduct findProductById(String proId) {
+		// Product product= new Product();
+		//FindProductByShoppingProduct
+		return shoppingProductRepository.FindProductByShoppingProduct(proId);
+		//return null;
 	}
 }

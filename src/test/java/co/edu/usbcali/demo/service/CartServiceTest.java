@@ -62,8 +62,12 @@ class CartServiceTest {
 	void debeAgregarProductShoppingCart()throws Exception {
 		//Arrange
 		Integer carId=9;
-		String proId="APPL666";
-		Integer quantity=10;
+		//String proId="APPL666";
+		//Integer quantity=10;
+		//String proId="APPL699";
+		//Integer quantity=3;
+		String proId="APPL693";
+		Integer quantity=6;
 		ShoppingProduct shoppingProduct=null;
 		
 		//Act
@@ -73,6 +77,19 @@ class CartServiceTest {
 		assertNotNull(shoppingProduct, "El shoppingProduct es nulo");
 	}
 	
+	@Test
+	void eliminarProductoDeUnShoppingCarShoppingProduct()throws Exception {
+		//Arrange
+		Integer carId=9;
+		String proId="APPL693";
+		
+		//Act
+		cartService.removeProduct(carId, proId);
+		
+		//Assert
+		
 	
-
+	}
+	
+	
 }

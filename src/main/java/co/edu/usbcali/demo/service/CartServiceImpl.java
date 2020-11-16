@@ -3,6 +3,8 @@ package co.edu.usbcali.demo.service;
 import java.util.List;
 import java.util.Optional;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
@@ -10,6 +12,7 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import co.edu.usbcali.demo.domain.Customer;
+import co.edu.usbcali.demo.domain.PaymentMethod;
 import co.edu.usbcali.demo.domain.Product;
 import co.edu.usbcali.demo.domain.ShoppingCart;
 import co.edu.usbcali.demo.domain.ShoppingProduct;
@@ -29,7 +32,10 @@ public class CartServiceImpl implements CartService {
 	
 	@Autowired
 	ShoppingProductService shoppingProductService;
-
+	
+	private final static Logger log=LoggerFactory.getLogger( PaymentMethod.class);
+	
+	
 	@Override
 	@Transactional(readOnly = false,propagation = Propagation.REQUIRED,rollbackFor = Exception.class)
 	public ShoppingCart createCart(String email) throws Exception {
@@ -120,7 +126,45 @@ public class CartServiceImpl implements CartService {
 	@Override
 	@Transactional(readOnly = false,propagation = Propagation.REQUIRED,rollbackFor = Exception.class)
 	public void removeProduct(Integer carId, String proId) throws Exception {
-		// TODO Auto-generated method stub
+
+		ShoppingCart shoppingCart=null;
+		Product product=null;
+		ShoppingProduct shoppingProduct=new ShoppingProduct();
+		
+		
+		shoppingCart=shoppingCartService.findById(carId).get();
+		/*Pasos
+		 * 1. Encontrar el ShoppingCart Por medio del carId *
+		 * 2. Encontrar el Producto dentro del CarId En elshopping * 
+		 * 3. Eliminar el Producto (Con servicio)
+		 * */
+		
+		log.info(shoppingCart.getCarId().toString());
+		log.info("Metodo de Pago: ");
+		//log.info(shoppingCart.getPaymentMethod().getName());
+		log.info("Customer: ");
+		log.info(shoppingCart.getCustomer().getName());
+		log.info(shoppingCart.getTotal().toString());
+		
+		if(productService.findById(shoppingCart.getCarId().toString()).isPresent()) {
+			throw new Exception(" *ERROR*! El shoppingCart esta No se encontro ! ");
+		}
+		
+		if(shoppingProductService.findProductById(proId).getProduct().getProId().isEmpty()) {
+			throw new Exception(" *ERROR*! El shoppingCart esta No se encontro ! ");
+		}
+		
+		if (!shoppingProduct.getProduct().getProId().equals(proId)) {
+			throw new Exception("El product no existe ");
+		}
+		shoppingProduct =shoppingProductService.findProductById(proId);
+		log.info(shoppingProduct.getProduct().getName());
+		log.info(shoppingProduct.getProduct().getProId());
+		//Hasta acá Todo bien, Encuentra cualquier Idpro dentro de un correspondiente IdCar
+		
+		
+		shoppingProductService.delete(shoppingProduct);
+		//Elimina bien segun el Id Del producto
 
 	}
 
