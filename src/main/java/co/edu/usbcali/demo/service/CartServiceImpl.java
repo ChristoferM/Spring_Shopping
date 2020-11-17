@@ -12,7 +12,6 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import co.edu.usbcali.demo.domain.Customer;
-import co.edu.usbcali.demo.domain.PaymentMethod;
 import co.edu.usbcali.demo.domain.Product;
 import co.edu.usbcali.demo.domain.ShoppingCart;
 import co.edu.usbcali.demo.domain.ShoppingProduct;
@@ -33,7 +32,7 @@ public class CartServiceImpl implements CartService {
 	@Autowired
 	ShoppingProductService shoppingProductService;
 	
-	private final static Logger log=LoggerFactory.getLogger( PaymentMethod.class);
+	private final static Logger log=LoggerFactory.getLogger( CartServiceImpl.class);
 	
 	
 	@Override
@@ -128,7 +127,6 @@ public class CartServiceImpl implements CartService {
 	public void removeProduct(Integer carId, String proId) throws Exception {
 
 		ShoppingCart shoppingCart=null;
-		Product product=null;
 		ShoppingProduct shoppingProduct=new ShoppingProduct();
 		
 		
@@ -171,15 +169,27 @@ public class CartServiceImpl implements CartService {
 	@Override
 	@Transactional(readOnly = false,propagation = Propagation.REQUIRED,rollbackFor = Exception.class)
 	public void clearCart(Integer carId) throws Exception {
-		// TODO Auto-generated method stub
-
+		// Borar el todos los shopping product de un ShoopingCart Puntual
+		ShoppingCart shoppingCart= new ShoppingCart();
+		shoppingCart=shoppingCartService.findById(carId).get();
+		
+		List<ShoppingProduct> shoppingProducts =shoppingCart.getShoppingProducts();
+				
+		for (ShoppingProduct tempShoppingProduct : shoppingProducts) {
+			shoppingProductService.delete(tempShoppingProduct);
+	        }
 	}
 
 	@Override
 	@Transactional(readOnly = true)
 	public List<ShoppingProduct> findShoppingProductByShoppingCart(Integer carId) throws Exception {
-		// TODO Auto-generated method stub
-		return null;
+		ShoppingCart shoppingCart= new ShoppingCart();
+		shoppingCart=shoppingCartService.findById(carId).get();
+		
+		List<ShoppingProduct> shoppingProducts =shoppingCart.getShoppingProducts();
+		
+
+		return shoppingProducts;
 	}
 
 }

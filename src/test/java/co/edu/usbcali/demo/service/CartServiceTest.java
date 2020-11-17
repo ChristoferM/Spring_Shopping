@@ -2,10 +2,15 @@ package co.edu.usbcali.demo.service;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import java.util.List;
+
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.Rollback;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import co.edu.usbcali.demo.domain.ShoppingCart;
 import co.edu.usbcali.demo.domain.ShoppingProduct;
@@ -16,7 +21,7 @@ class CartServiceTest {
 	
 	@Autowired
 	CartService cartService;
-
+	private final static Logger log=LoggerFactory.getLogger(CartServiceTest.class);
 	@Test
 	void debeCrearUnShoppingCart()throws Exception {
 		//Arrange
@@ -62,33 +67,47 @@ class CartServiceTest {
 	void debeAgregarProductShoppingCart()throws Exception {
 		//Arrange
 		Integer carId=9;
-		//String proId="APPL666";
-		//Integer quantity=10;
-		//String proId="APPL699";
-		//Integer quantity=3;
-		String proId="APPL693";
-		Integer quantity=6;
 		ShoppingProduct shoppingProduct=null;
+		//Act
+		String proId="APPL666";
+		Integer quantity=10;
+
+		shoppingProduct=cartService.addProduct(carId, proId, quantity);		
 		
 		//Act
+		proId="APPL699";
+		quantity=3;
 		shoppingProduct=cartService.addProduct(carId, proId, quantity);
 		
+		//Act
+		proId="APPL693";
+		quantity=6;
+		shoppingProduct=cartService.addProduct(carId, proId, quantity);
+	
 		//Assert
 		assertNotNull(shoppingProduct, "El shoppingProduct es nulo");
 	}
 	
 	@Test
-	void eliminarProductoDeUnShoppingCarShoppingProduct()throws Exception {
+	void clerarShoppingProduct()throws Exception {
 		//Arrange
-		Integer carId=9;
-		String proId="APPL693";
-		
+		Integer carId=9;	
 		//Act
-		cartService.removeProduct(carId, proId);
-		
-		//Assert
-		
+		cartService.clearCart(carId);		
+	}
 	
+	@Test
+	void findShoppingProductByShoppingCart()throws Exception {
+		//Arrange
+		Integer carId=9;	
+		//Act
+		List<ShoppingProduct> shoppingProducts =cartService.findShoppingProductByShoppingCart(carId);
+		for (ShoppingProduct tempShoppingProduct : shoppingProducts) {
+			
+			log.info(tempShoppingProduct.getProduct().getName());
+	        }
+		
+		// Es correcto sacar el ShoppingProduct o la idea esa sacar una lista productos
 	}
 	
 	
