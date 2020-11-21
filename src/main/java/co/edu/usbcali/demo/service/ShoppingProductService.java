@@ -1,6 +1,6 @@
 package co.edu.usbcali.demo.service;
 
-import co.edu.usbcali.demo.domain.Product;
+
 import co.edu.usbcali.demo.domain.ShoppingProduct;
 
 
@@ -13,5 +13,6 @@ public interface ShoppingProductService extends GenericService<ShoppingProduct, 
 	
 	public Long totalShoppingProductByShoppingCart(Integer carId);
 	public ShoppingProduct findProductById(String proId);
-	
+	public Integer findShprByIdProduct(String proId);
+	public void updateQuantityById(String proId, Integer quantity);
 }

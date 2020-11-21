@@ -35,6 +35,5 @@ public interface GenericService<T,ID> {
 
     public void validate(T entity) throws Exception;
 
- 
-
+	
 }

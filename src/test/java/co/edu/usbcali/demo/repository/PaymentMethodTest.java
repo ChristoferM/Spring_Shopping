@@ -2,7 +2,6 @@ package co.edu.usbcali.demo.repository;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-import java.util.Optional;
 
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;

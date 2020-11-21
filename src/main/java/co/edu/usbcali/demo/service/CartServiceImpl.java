@@ -84,7 +84,7 @@ public class CartServiceImpl implements CartService {
 		}
 		
 		if(shoppingCartService.findById(carId).isPresent()==false) {
-			
+			throw new Exception("ERROR ID SHOPPING_CAR NO ENCONTRADO");
 		}
 		
 		shoppingCart=shoppingCartService.findById(carId).get();
@@ -92,18 +92,23 @@ public class CartServiceImpl implements CartService {
 		if(shoppingCart.getEnable().equals("N")==true) {
 			throw new Exception("El shoppingCart esta inhabilitado");
 		}
-		
+		// bUSCA EL ID DEL PRODUCTO EN LOS DATOS DE PRODUCT
 		if(productService.findById(proId).isPresent()==false) {
 			throw new Exception("El product no existe");
 		}
-		
+		//LLAMA EL SERVICIO DE PRODUCTOS PARA OBTENER INFORMACIÓN DEL PRODUCTO
 		product=productService.findById(proId).get();
 		
+		// VALIDA QUE EL PRODUCTO ESTE HABILITADO EN LA BASE DE DATOS
 		if(product.getEnable().equals("N")==true) {
 			throw new Exception("El product esta inhabilitado");
 		}
 		
+		// VALIDA QUE EL PRODUCTO SEA UN PRODUCTO NUEVO EN EL SHOPPING_PRODUCT
+		//findShprByIdProduct
 		ShoppingProduct shoppingProduct=new ShoppingProduct();
+		/*s
+		
 		shoppingProduct.setProduct(product);
 		shoppingProduct.setQuantity(quantity);
 		shoppingProduct.setShoppingCart(shoppingCart);
@@ -111,7 +116,25 @@ public class CartServiceImpl implements CartService {
 		totalShoppingProduct=Long.valueOf(product.getPrice()*quantity);
 		shoppingProduct.setTotal(totalShoppingProduct);
 		
-		shoppingProduct=shoppingProductService.save(shoppingProduct);
+		shoppingProduct=shoppingProductService.save(shoppingProduct);*/
+		if(shoppingProductService.findShprByIdProduct(proId).equals(null)) {
+			//Si es blank -> quiere decir que no el producto, por ende se procede a agregarlo
+			
+			shoppingProduct.setProduct(product);
+			shoppingProduct.setQuantity(quantity);
+			shoppingProduct.setShoppingCart(shoppingCart);
+			shoppingProduct.setShprId(0);
+			totalShoppingProduct=Long.valueOf(product.getPrice()*quantity);
+			shoppingProduct.setTotal(totalShoppingProduct);
+			
+			shoppingProduct=shoppingProductService.save(shoppingProduct);
+			
+		}else {
+			//De los contrario, se procede a Modificarse el ShoppingProduct para evitar muchos registros con el mismo item
+			//Integer carId, String proId, Integer quantity
+			//updateQuantityById updateQuantityById
+			shoppingProductService.updateQuantityById(proId, quantity);
+		}
 		
 		totalShoppingCart=shoppingProductService.totalShoppingProductByShoppingCart(carId);
 		
@@ -184,10 +207,14 @@ public class CartServiceImpl implements CartService {
 	@Transactional(readOnly = true)
 	public List<ShoppingProduct> findShoppingProductByShoppingCart(Integer carId) throws Exception {
 		ShoppingCart shoppingCart= new ShoppingCart();
+		
 		shoppingCart=shoppingCartService.findById(carId).get();
 		
 		List<ShoppingProduct> shoppingProducts =shoppingCart.getShoppingProducts();
-		
+		for (ShoppingProduct tempShoppingProduct : shoppingProducts) {
+			
+			log.info(tempShoppingProduct.toString());
+	        }
 
 		return shoppingProducts;
 	}
