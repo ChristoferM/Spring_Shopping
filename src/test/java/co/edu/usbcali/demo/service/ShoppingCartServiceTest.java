@@ -72,6 +72,7 @@ public class ShoppingCartServiceTest {
 	@Test
 	@Order(2)
 	void findById() throws Exception {
+				
 		Optional<ShoppingCart> shoppingCartServiceOptional=shoppingCartService.findById(carId);
 		assertTrue(shoppingCartServiceOptional.isPresent(),"El shoppingCartServiceOptional con carId "+carId+" No existe");
  
@@ -93,11 +94,13 @@ public class ShoppingCartServiceTest {
 	@Test
 	@Order(4)
 	void delete() throws Exception {
-	Optional<ShoppingCart> shoppingCartServiceOptional=shoppingCartService.findById(carId);
-	assertTrue(shoppingCartServiceOptional.isPresent(),"El shoppingCartServiceOptional con carId "+carId+" No existe");
+		
+		Optional<ShoppingCart> shoppingCartServiceOptional=shoppingCartService.findById(carId);
+		assertTrue(shoppingCartServiceOptional	.isPresent(),"El shoppingCartServiceOptional con carId "+carId+" No existe");
+		ShoppingCart shoppingCart=shoppingCartServiceOptional.get();		
+		shoppingCartService.delete(shoppingCart);			
+		
 	
-	ShoppingCart shoppingCart=shoppingCartServiceOptional.get();		
-	shoppingCartService.delete(shoppingCart);	
 	}
 	
 }

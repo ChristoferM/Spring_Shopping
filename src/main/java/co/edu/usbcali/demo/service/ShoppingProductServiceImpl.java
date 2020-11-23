@@ -16,7 +16,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
-
+import co.edu.usbcali.demo.domain.ShoppingCart;
 import co.edu.usbcali.demo.domain.ShoppingProduct;
 import co.edu.usbcali.demo.repository.ShoppingProductRepository;
 
@@ -26,6 +26,10 @@ import co.edu.usbcali.demo.repository.ShoppingProductRepository;
 public class ShoppingProductServiceImpl implements ShoppingProductService {
 	
 	private final static Logger log = LoggerFactory.getLogger(ShoppingProductServiceImpl.class);
+	
+	
+	@Autowired
+	private ShoppingCartService shoppingCartService;
 	
     @Autowired
     private ShoppingProductRepository shoppingProductRepository;
@@ -138,31 +142,47 @@ public class ShoppingProductServiceImpl implements ShoppingProductService {
         return shoppingProductRepository.findById(shprId);
     }
 
-   
 	@Override
 	@Transactional(readOnly = true)
 	public Long totalShoppingProductByShoppingCart(Integer carId) {	
 		return shoppingProductRepository.totalShoppingProductByShoppingCart(carId);
 	}
-
-	@Override
-	public Integer findShprByIdProduct(String proId) {
-		//Busca en el ShoppingProduct Si existe un Id de Algun producto (Devuelve el ID ShoppingProduct)
-		return shoppingProductRepository.findByIdShoppingProduct(proId);
-	}
-	
-	
 	
 	@Override
-	public ShoppingProduct findProductById(String proId) {
-		// Product product= new Product();
-		//FindProductByShoppingProduct
-		return shoppingProductRepository.FindProductByShoppingProduct(proId);
-		//return null;
+	@Transactional(readOnly = true)
+	public Integer quantityShoppingProductByShoppingCart(Integer carId) {
+		return shoppingProductRepository.quantityShoppingProductByShoppingCart(carId);
 	}
 
 	@Override
-	public void updateQuantityById(String proId, Integer quantity) {
-		shoppingProductRepository.updateQuantityById(proId, quantity);
+	@Transactional(readOnly = true)
+	public ShoppingProduct findByShoppingCartAndProduct(Integer carId, String proId) {
+		return shoppingProductRepository.findByShoppingCartAndProduct(carId, proId);
+	}
+	
+	@Override
+	@Transactional(readOnly = true)
+	public List<ShoppingProduct> findShoppingProductByShoppingCart(Integer carId){
+		return shoppingProductRepository.findShoppingProductByShoppingCart(carId);
+	}
+
+	@Override
+	@Transactional(readOnly = false, propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
+	public void deleteProductsByShoppingCart(Integer carId) throws Exception{
+		 if (carId == null) {
+	        throw new Exception("El ShoppingCart id es nulo");
+	     }
+		 if(shoppingCartService.findById(carId).isPresent()==false) {
+			 throw new Exception("El ShoppingCart con id:"+carId+" No existe");
+		 }
+		 
+		 ShoppingCart shoppingCart=shoppingCartService.findById(carId).get();
+		 
+		 if(shoppingCart.getPaymentMethod()!=null) {
+			 throw new Exception("El ShoppingCart con id:"+carId+" ya se encuentra pagado no se pueden eliminar");
+		 }
+		 
+		 shoppingProductRepository.deleteProductsByShoppingCart(carId);		
 	}
 }
+

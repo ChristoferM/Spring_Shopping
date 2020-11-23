@@ -2,15 +2,11 @@ package co.edu.usbcali.demo.service;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-import java.util.List;
-
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.Rollback;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import co.edu.usbcali.demo.domain.ShoppingCart;
 import co.edu.usbcali.demo.domain.ShoppingProduct;
@@ -21,11 +17,9 @@ class CartServiceTest {
 	
 	@Autowired
 	CartService cartService;
-	private final static Logger log=LoggerFactory.getLogger(CartServiceTest.class);
-	
-	
-	
+
 	@Test
+	@Disabled
 	void debeCrearUnShoppingCart()throws Exception {
 		//Arrange
 		String email="abaglowbn@furl.net";
@@ -66,64 +60,67 @@ class CartServiceTest {
 		assertThrows(Exception.class, ()->cartService.createCart(email));		
 	}
 	
-	/*
-	 * Tarea
-	 * */
-	
 	@Test
-	void debeAgregarProductShoppingCart()throws Exception {
-		log.info("**** METODO debeAgregarProductShoppingCart****");
+	void debeAgregarProductAPPL45ShoppingCart()throws Exception {
 		//Arrange
 		Integer carId=9;
+		String proId="APPL45";
+		Integer quantity=5;
 		ShoppingProduct shoppingProduct=null;
-		//Act
-		String proId="APPL666";
-		Integer quantity=3;
-
-		shoppingProduct=cartService.addProduct(carId, proId, quantity);		
-		/*
-		//Act
-		proId="APPL699";
-		quantity=3;
-		shoppingProduct=cartService.addProduct(carId, proId, quantity);
 		
 		//Act
-		proId="APPL693";
-		quantity=6;
 		shoppingProduct=cartService.addProduct(carId, proId, quantity);
-		*/
-	
+		
 		//Assert
 		assertNotNull(shoppingProduct, "El shoppingProduct es nulo");
 	}
 	
 	@Test
-	void deleteProduct()throws Exception {
+	void debeAgregarProductShoppingCart()throws Exception {
 		//Arrange
 		Integer carId=9;
-		String proId="APPL693";
+		String proId="APPL699";
+		Integer quantity=1;
+		ShoppingProduct shoppingProduct=null;
+		
 		//Act
-		cartService.removeProduct(carId, proId);	
+		shoppingProduct=cartService.addProduct(carId, proId, quantity);
+		
+		//Assert
+		assertNotNull(shoppingProduct, "El shoppingProduct es nulo");
 	}
+	
 	@Test
-	void clerarShoppingProduct()throws Exception {
+	void debeRemoverProductShoppingCart()throws Exception {
+		//Elimina los valores de Cantidad y de Valor 
+		//No elimina el registro como tal
 		//Arrange
-		Integer carId=9;	
+		Integer carId=9;
+		String proId="APPL699";
+		
 		//Act
-		cartService.clearCart(carId);		
+		cartService.removeProduct(carId, proId);
 	}
 	
 	@Test
-	void findShoppingProductByShoppingCart()throws Exception {
+	void debeRemoverProductAPPL90ShoppingCart()throws Exception {
 		//Arrange
-		Integer carId=9;	
+		Integer carId=9;
+		String proId="APPL90";
+		
 		//Act
-		List<ShoppingProduct> shoppingProducts =cartService.findShoppingProductByShoppingCart(carId);
+		cartService.removeProduct(carId, proId);
+	}
+	
+	@Test
+	void debeLimpiarElCart() throws Exception{
+		//Arrange
+		Integer carId=9;
 		
-		
-		
-		// Es correcto sacar el ShoppingProduct o la idea esa sacar una lista productos
+		//Act
+		cartService.clearCart(carId);
 	}
 	
 	
+
 }
