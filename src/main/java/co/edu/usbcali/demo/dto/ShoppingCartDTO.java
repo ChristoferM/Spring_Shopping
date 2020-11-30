@@ -20,6 +20,7 @@ public class ShoppingCartDTO {
     private Long total;
     @NotNull
     private String customerEmail;
+    
     @NotNull
     private Integer paymentMethodId;
 	public Integer getCarId() {

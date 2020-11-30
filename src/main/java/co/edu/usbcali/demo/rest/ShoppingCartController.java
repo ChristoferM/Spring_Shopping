@@ -27,7 +27,7 @@ import javax.validation.Valid;
  *
  */
 @RestController
-@RequestMapping("/api/v1/shoppingCart")
+@RequestMapping("/api/shoppingCart")
 @CrossOrigin(origins = "*")
 public class ShoppingCartController {
 	@Autowired
@@ -35,7 +35,7 @@ public class ShoppingCartController {
 	@Autowired
 	private ShoppingCartMapper shoppingCartMapper;
 
-	@GetMapping(value = "/{carId}")
+	@RequestMapping("/findById/{carId}")
 	public ResponseEntity<?> findById(@PathVariable("carId") Integer carId) throws Exception {
 
 		ShoppingCart shoppingCart = (shoppingCartService.findById(carId).isPresent() == true)
@@ -44,15 +44,16 @@ public class ShoppingCartController {
 
 		return ResponseEntity.ok().body(shoppingCartMapper.shoppingCartToShoppingCartDTO(shoppingCart));
 	}
+	
 
-	@GetMapping()
+	@RequestMapping("/findAll")
 	public ResponseEntity<?> findAll() throws Exception {
 
 		return ResponseEntity.ok()
 				.body(shoppingCartMapper.listShoppingCartToListShoppingCartDTO(shoppingCartService.findAll()));
 	}
 
-	@PostMapping()
+	@RequestMapping("/save")
 	public ResponseEntity<?> save(@Valid @RequestBody ShoppingCartDTO shoppingCartDTO) throws Exception {
 
 		ShoppingCart shoppingCart = shoppingCartMapper.shoppingCartDTOToShoppingCart(shoppingCartDTO);
@@ -61,7 +62,7 @@ public class ShoppingCartController {
 		return ResponseEntity.ok().body(shoppingCartMapper.shoppingCartToShoppingCartDTO(shoppingCart));
 	}
 
-	@PutMapping()
+	@PutMapping("/update")
 	public ResponseEntity<?> update(@Valid @RequestBody ShoppingCartDTO shoppingCartDTO) throws Exception {
 
 		ShoppingCart shoppingCart = shoppingCartMapper.shoppingCartDTOToShoppingCart(shoppingCartDTO);
@@ -70,7 +71,8 @@ public class ShoppingCartController {
 		return ResponseEntity.ok().body(shoppingCartMapper.shoppingCartToShoppingCartDTO(shoppingCart));
 	}
 
-	@DeleteMapping(value = "/{carId}")
+	
+	@DeleteMapping("/delete/{carId}")
 	public ResponseEntity<?> delete(@PathVariable("carId") Integer carId) throws Exception {
 
 		shoppingCartService.deleteById(carId);
@@ -78,7 +80,7 @@ public class ShoppingCartController {
 		return ResponseEntity.ok().build();
 	}
 
-	@GetMapping(value = "/count")
+	@RequestMapping("/count")
 	public ResponseEntity<?> count() {
 		return ResponseEntity.ok().body(shoppingCartService.count());
 	}

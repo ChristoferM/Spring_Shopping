@@ -26,6 +26,7 @@ public class ShoppingCartServiceimpl implements ShoppingCartService {
 		return shoppingCartRepository.findAll();
 	}
 
+	
 	@Override
 	@Transactional(readOnly = true)
 	public Long count() {
@@ -141,8 +142,25 @@ public class ShoppingCartServiceimpl implements ShoppingCartService {
 		//	-------------------------------
 		
 	}
-
-
+	@Override
+	@Transactional(readOnly = true)
+	public Integer findByIdEnable(String email) {
+		
+		Optional<ShoppingCart> shoppingCart= shoppingCartRepository.findByIdEnable(email);
+		
+		return shoppingCart.get().getCarId();
+	}
+	@Override
+	@Transactional(readOnly = true)
+	public List<ShoppingCart> findShoppingCart(String email) {
+		
+		List<ShoppingCart> shoppingCart= shoppingCartRepository.findShoppingCart(email);
+		
+		return shoppingCart;
+	}
+	
+	
+	
 
 }
 

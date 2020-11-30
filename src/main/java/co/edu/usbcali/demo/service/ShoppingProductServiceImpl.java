@@ -160,11 +160,7 @@ public class ShoppingProductServiceImpl implements ShoppingProductService {
 		return shoppingProductRepository.findByShoppingCartAndProduct(carId, proId);
 	}
 	
-	@Override
-	@Transactional(readOnly = true)
-	public List<ShoppingProduct> findShoppingProductByShoppingCart(Integer carId){
-		return shoppingProductRepository.findShoppingProductByShoppingCart(carId);
-	}
+	
 
 	@Override
 	@Transactional(readOnly = false, propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
@@ -184,5 +180,20 @@ public class ShoppingProductServiceImpl implements ShoppingProductService {
 		 
 		 shoppingProductRepository.deleteProductsByShoppingCart(carId);		
 	}
+
+	@Override
+	@Transactional(readOnly = true)
+	public List<ShoppingProduct> findProductByShpId(String email) {
+		// TODO Auto-generated method stub
+		return shoppingProductRepository.findProductByShpId(email);
+	}
+
+	@Override
+	public List<ShoppingProduct> findShoppingProductByShoppingCart(Integer carId) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	
+	
 }
 

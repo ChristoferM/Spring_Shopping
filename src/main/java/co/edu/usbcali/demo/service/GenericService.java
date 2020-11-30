@@ -4,6 +4,8 @@ package co.edu.usbcali.demo.service;
 import java.util.List;
 import java.util.Optional;
 
+import co.edu.usbcali.demo.domain.ShoppingProduct;
+
 
 /*
  * Interface Generica que tiene los metodos minimos para un componente de negocio
@@ -36,4 +38,5 @@ public interface GenericService<T,ID> {
     public void validate(T entity) throws Exception;
 
 	
+
 }

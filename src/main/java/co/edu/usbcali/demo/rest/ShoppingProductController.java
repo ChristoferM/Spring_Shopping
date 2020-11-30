@@ -22,7 +22,7 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.validation.Valid;
 
 @RestController
-@RequestMapping("/api/v1/shoppingProduct")
+@RequestMapping("/api/shoppingProduct")
 @CrossOrigin(origins = "*")
 
 public class ShoppingProductController {
@@ -31,7 +31,7 @@ public class ShoppingProductController {
 	@Autowired
 	private ShoppingProductMapper shoppingProductMapper;
 
-	@GetMapping(value = "/{shprId}")
+	@RequestMapping("/findById/{shprId}")
 	public ResponseEntity<?> findById(@PathVariable("shprId") Integer shprId) throws Exception {
 
 		ShoppingProduct shoppingProduct = (shoppingProductService.findById(shprId).isPresent() == true)
@@ -40,15 +40,23 @@ public class ShoppingProductController {
 
 		return ResponseEntity.ok().body(shoppingProductMapper.shoppingProductToShoppingProductDTO(shoppingProduct));
 	}
+	
+	@RequestMapping("/findProductByShpId/{shprId}")
+	public ResponseEntity<?> findProductByShpId(@PathVariable("shprId") String email) throws Exception {
 
-	@GetMapping()
+		return ResponseEntity.ok().body(
+				shoppingProductMapper.listShoppingProductToListShoppingProductDTO(shoppingProductService.findProductByShpId(email) ) );
+	}
+
+
+	@RequestMapping("/findAll")
 	public ResponseEntity<?> findAll() throws Exception {
 
 		return ResponseEntity.ok().body(
 				shoppingProductMapper.listShoppingProductToListShoppingProductDTO(shoppingProductService.findAll()));
 	}
 
-	@PostMapping()
+	@RequestMapping("/save")
 	public ResponseEntity<?> save(@Valid @RequestBody ShoppingProductDTO shoppingProductDTO) throws Exception {
 
 		ShoppingProduct shoppingProduct = shoppingProductMapper.shoppingProductDTOToShoppingProduct(shoppingProductDTO);
@@ -57,7 +65,7 @@ public class ShoppingProductController {
 		return ResponseEntity.ok().body(shoppingProductMapper.shoppingProductToShoppingProductDTO(shoppingProduct));
 	}
 
-	@PutMapping()
+	@PutMapping("/update")
 	public ResponseEntity<?> update(@Valid @RequestBody ShoppingProductDTO shoppingProductDTO) throws Exception {
 
 		ShoppingProduct shoppingProduct = shoppingProductMapper.shoppingProductDTOToShoppingProduct(shoppingProductDTO);
@@ -66,7 +74,8 @@ public class ShoppingProductController {
 		return ResponseEntity.ok().body(shoppingProductMapper.shoppingProductToShoppingProductDTO(shoppingProduct));
 	}
 
-	@DeleteMapping(value = "/{shprId}")
+	
+	@DeleteMapping("/delete/{shprId}")
 	public ResponseEntity<?> delete(@PathVariable("shprId") Integer shprId) throws Exception {
 
 		shoppingProductService.deleteById(shprId);
@@ -74,7 +83,7 @@ public class ShoppingProductController {
 		return ResponseEntity.ok().build();
 	}
 
-	@GetMapping(value = "/count")
+	@RequestMapping("/count")
 	public ResponseEntity<?> count() {
 		return ResponseEntity.ok().body(shoppingProductService.count());
 	}

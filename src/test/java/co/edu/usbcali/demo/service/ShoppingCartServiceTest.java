@@ -4,6 +4,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.Optional;
+import java.util.List;
 
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
@@ -77,7 +78,6 @@ public class ShoppingCartServiceTest {
 		assertTrue(shoppingCartServiceOptional.isPresent(),"El shoppingCartServiceOptional con carId "+carId+" No existe");
  
 	}
-
 	
 	@Test 
 	@Order(3)
@@ -94,7 +94,7 @@ public class ShoppingCartServiceTest {
 	@Test
 	@Order(4)
 	void delete() throws Exception {
-		
+		//carId=16;
 		Optional<ShoppingCart> shoppingCartServiceOptional=shoppingCartService.findById(carId);
 		assertTrue(shoppingCartServiceOptional	.isPresent(),"El shoppingCartServiceOptional con carId "+carId+" No existe");
 		ShoppingCart shoppingCart=shoppingCartServiceOptional.get();		
@@ -102,6 +102,48 @@ public class ShoppingCartServiceTest {
 		
 	
 	}
+	@Test
+	void findByIdEnable() throws Exception {
+		String email1="abaglowbn@furl.net";
+		
+		
+		String IdCar= shoppingCartService.findByIdEnable(email1).toString();
+		
+		log.info("El ID DEL CARRITO HABILITADO PARA: "+email1);
+		log.info("El ID DEL CARRO ES : "+ IdCar);
+ 
+	}
+	
+	@Test
+	void findByShoppingCart() throws Exception {
+		
+		String email1="sruberrya@spiegel.de";
+		
+		List<ShoppingCart> shoppingsCart= shoppingCartService.findShoppingCart(email1);
+		
+		
+		if (shoppingsCart.isEmpty()==false) {
+			
+			log.info("\n *************** SI hay carrito de compra: ");
+			for (ShoppingCart shoppingCart : shoppingsCart) {
+				log.info(shoppingCart.getCarId().toString());
+				log.info(shoppingCart.getTotal().toString());
+				log.info(shoppingCart.getItems().toString());
+			
+				
+			}
+			
+			  
+			
+		}else {
+			log.info("\n *************** NO HAY CARRITO DE COMRPA ");
+			
+		}
+		log.info("\n *************** El ID DEL CARRITO HABILITADO PARA: "+email1);
+		
+ 
+	}
+	
 	
 }
 

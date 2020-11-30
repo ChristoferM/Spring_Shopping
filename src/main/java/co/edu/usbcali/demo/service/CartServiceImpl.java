@@ -48,8 +48,8 @@ public class CartServiceImpl implements CartService {
 		
 		customer=customerOptional.get();
 		
-		if(customer.getEnable()==null || customer.getEnable().equals("N")==true) {
-			throw new Exception("El cliente con email: "+email+" no esta habilitado");
+		if(customer.getEnable()==null || customer.getEnable().equals("Y")==true) {
+			throw new Exception("El cliente con email: "+email+" esta habilitado");
 		}
 		
 		shoppingCart=new ShoppingCart(0, customer, null,0, 0L, "Y", null);
@@ -220,5 +220,19 @@ public class CartServiceImpl implements CartService {
 	public List<ShoppingProduct> findShoppingProductByShoppingCart(Integer carId) throws Exception {
 		return shoppingProductService.findShoppingProductByShoppingCart(carId);
 	}
+	@Override
+	@Transactional(readOnly = true)
+	public List<ShoppingProduct> findProductByShpId(String email) throws Exception {
+		return shoppingProductService.findProductByShpId(email);
+	}
+	
+	@Override
+	public List<ShoppingCart> findShoppingCart(String email) throws Exception {
+		// TODO Auto-generated method stub
+		ShoppingCart shoppingCart=null;
+		
+		return null;
+	}
 
+	
 }
