@@ -2,6 +2,7 @@ package co.edu.usbcali.demo.service;
 
 import java.util.List;
 
+import co.edu.usbcali.demo.domain.ShoppingCart;
 import co.edu.usbcali.demo.domain.ShoppingProduct;
 
 
@@ -21,6 +22,8 @@ public interface ShoppingProductService extends GenericService<ShoppingProduct, 
 	public List<ShoppingProduct> findProductByShpId(String email);
 	
 	
-	List<ShoppingProduct> findShoppingProductByShoppingCart(Integer carId);
+	public List<ShoppingProduct> findShoppingProductByShoppingCart(Integer carId);
+	
+	void deleteShoppingProduct(String pro_id, Integer carId) throws Exception;
 	
 }

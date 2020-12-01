@@ -26,10 +26,12 @@ class CartServiceTest {
 	void debeCrearUnShoppingCart()throws Exception {
 		//Arrange
 		String email="abaglowbn@furl.net";
+		
 		// String email="sruberrya@spiegel.de";
 		ShoppingCart shoppingCart=null;
 		
 		//Act
+		email="abeamondqq@harvard.edu";
 		shoppingCart=cartService.createCart(email);
 		
 		//Assert
@@ -68,7 +70,8 @@ class CartServiceTest {
 	void debeAgregarProductAPPL45ShoppingCart()throws Exception {
 		//Arrange
 		Integer carId=15;
-		String proId="APPL45";
+		//String proId="APPL666";
+		String proId="APPL693";
 		Integer quantity=5;
 		ShoppingProduct shoppingProduct=null;
 		
@@ -80,6 +83,21 @@ class CartServiceTest {
 	}
 	
 	@Test
+	void deleteShoppingProduct()throws Exception {
+		//Elimina el registro completo del Shopping Product
+		//Arrange
+		Integer carId=15;
+		String proId="APPL693";
+		//Act
+		log.debug("\n INICIA EL BORRADO \n *******************");
+		cartService.deleteShoppingProduct(proId, carId);
+		
+		//Assert
+		
+	}
+	
+	
+	@Test
 	void debeAgregarProductShoppingCart()throws Exception {
 		//Arrange
 		// APPL693
@@ -87,7 +105,7 @@ class CartServiceTest {
 		// APPL90
 		Integer carId=15;
 		String proId="APPL699";
-		Integer quantity=1;
+		Integer quantity=2;
 		ShoppingProduct shoppingProduct=null;
 		
 		//Act
@@ -113,12 +131,13 @@ class CartServiceTest {
 		//Elimina los valores de Cantidad y de Valor 
 		//No elimina el registro como tal
 		//Arrange
-		Integer carId=9;
+		//Integer carId=9;
 		// APPL693
 		// APPL666
 		// APPL90
-		String proId="APPL45";
-		
+		//String proId="APPL45";
+		Integer carId=15;
+		String proId="APPL666";
 		//Act
 		cartService.removeProduct(carId, proId);
 	}
@@ -142,16 +161,6 @@ class CartServiceTest {
 		cartService.clearCart(carId);
 	}
 		
-
-	@Test
-	void EncontrarCarritosDeCompra() throws Exception{
-		//Arrange
-		//Integer carId=16;
-		String email="sruberrya@spiegel.de";
-		//Act
-		cartService.findShoppingCart(email);
-	}
-	
 
 	@Test
 	void EncontrarProductosDeCarritoDeCompra() throws Exception{

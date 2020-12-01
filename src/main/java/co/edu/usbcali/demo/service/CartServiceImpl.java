@@ -51,7 +51,10 @@ public class CartServiceImpl implements CartService {
 		if(customer.getEnable()==null || customer.getEnable().equals("Y")==true) {
 			throw new Exception("El cliente con email: "+email+" esta habilitado");
 		}
-		
+		if(shoppingCartService.findShoppingCart(email).isEmpty() ) {
+			
+			throw new Exception("El cliente con email: "+email+" Tiene un Carrito Habilitado");
+		}
 		shoppingCart=new ShoppingCart(0, customer, null,0, 0L, "Y", null);
 		
 		shoppingCart=shoppingCartService.save(shoppingCart);
@@ -229,9 +232,19 @@ public class CartServiceImpl implements CartService {
 	@Override
 	public List<ShoppingCart> findShoppingCart(String email) throws Exception {
 		// TODO Auto-generated method stub
-		ShoppingCart shoppingCart=null;
+		//BUSCA LOS CARROS POR EMAIL
+		List<ShoppingCart> shoppingCart=shoppingCartService.findShoppingCart(email);
 		
-		return null;
+		return shoppingCart;
+	}
+
+	
+	@Override
+	@Transactional(readOnly = false,propagation = Propagation.REQUIRED,rollbackFor = Exception.class)
+	public void deleteShoppingProduct(String pro_id, Integer carId) throws Exception {
+		// (String pro_id,Integer carId )
+		
+		shoppingProductService.deleteShoppingProduct(pro_id, carId);
 	}
 
 	

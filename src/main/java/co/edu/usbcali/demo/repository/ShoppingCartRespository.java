@@ -18,7 +18,7 @@ public interface ShoppingCartRespository extends JpaRepository<ShoppingCart,Inte
 		User findUserByStatusAndName(Integer status, String name);
 
 	 * */
-	@Query(value = "select * from shopping_cart WHERE shopping_cart.email= ?1", nativeQuery = true)
+	@Query(value = "select * from shopping_cart WHERE shopping_cart.email= ?1 AND enable='Y'", nativeQuery = true)
 	public List<ShoppingCart> findShoppingCart(String email);
 	
 	

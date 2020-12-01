@@ -113,6 +113,19 @@ public class ShoppingProductServiceImpl implements ShoppingProductService {
             delete(shoppingProductRepository.findById(id).get());
         }
     }
+    
+    @Override
+    @Transactional(readOnly = false, propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
+    public void deleteShoppingProduct(String pro_id,Integer carId )  throws Exception{
+    	log.debug("\n ***************** \n");
+        log.debug("deleting ShoppingProduct BY PRO_ID AND CAR_ID");
+
+        if (pro_id == null || carId == null) {
+        	throw new Exception("El ShoppingProduct id es nulo");
+        }
+        log.debug("**************deleting ShoppingProduct BY PRO_ID AND CAR_ID");
+        shoppingProductRepository.deleteShoppingProduct(pro_id, carId);
+    }
 
     @Override
     @Transactional(readOnly = false, propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
@@ -184,8 +197,9 @@ public class ShoppingProductServiceImpl implements ShoppingProductService {
 	@Override
 	@Transactional(readOnly = true)
 	public List<ShoppingProduct> findProductByShpId(String email) {
-		// TODO Auto-generated method stub
+		
 		return shoppingProductRepository.findProductByShpId(email);
+		
 	}
 
 	@Override
@@ -193,6 +207,8 @@ public class ShoppingProductServiceImpl implements ShoppingProductService {
 		// TODO Auto-generated method stub
 		return null;
 	}
+
+
 	
 	
 }

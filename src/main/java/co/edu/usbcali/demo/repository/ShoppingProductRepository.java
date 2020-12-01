@@ -29,4 +29,9 @@ public interface ShoppingProductRepository extends JpaRepository<ShoppingProduct
 	
 	@Query(value =" select * from SHOPPING_PRODUCT WHERE SHOPPING_PRODUCT.CAR_ID=(select shopping_cart.car_id from shopping_cart WHERE shopping_cart.email=?1 AND shopping_cart.enable='Y');  ", nativeQuery = true)
 	public List<ShoppingProduct> findProductByShpId(String email);
+	
+	
+	@Modifying
+	@Query(value ="DELETE FROM shopping_product WHERE  shopping_product.pro_id= ?1 and shopping_product.car_id= ?2 ;", nativeQuery = true)
+	public void deleteShoppingProduct(String pro_id,Integer carId );
 }

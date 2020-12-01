@@ -82,7 +82,15 @@ public class ShoppingProductController {
 
 		return ResponseEntity.ok().build();
 	}
+	
+	
+	@DeleteMapping("/deleteP/{pro_id}/{carId}")
+	public ResponseEntity<?> deleteShoppingProduct(@PathVariable("shprId") String pro_id,Integer carId) throws Exception {
 
+		shoppingProductService.deleteShoppingProduct(pro_id, carId);
+
+		return ResponseEntity.ok().build();
+	}
 	@RequestMapping("/count")
 	public ResponseEntity<?> count() {
 		return ResponseEntity.ok().body(shoppingProductService.count());

@@ -3,6 +3,9 @@ package co.edu.usbcali.demo.service;
 import java.util.List;
 import java.util.Optional;
 
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
@@ -19,6 +22,8 @@ public class ShoppingCartServiceimpl implements ShoppingCartService {
 
 	@Autowired
 	ShoppingCartRespository shoppingCartRepository;
+
+	private final static Logger log = LoggerFactory.getLogger(ShoppingCartServiceimpl.class);
 	
 	@Override
 	@Transactional(readOnly = true)
@@ -150,12 +155,16 @@ public class ShoppingCartServiceimpl implements ShoppingCartService {
 		
 		return shoppingCart.get().getCarId();
 	}
+	
 	@Override
 	@Transactional(readOnly = true)
 	public List<ShoppingCart> findShoppingCart(String email) {
-		
+		log.info("\n ESTAMOS EN CArtService Implementacion \n ");
 		List<ShoppingCart> shoppingCart= shoppingCartRepository.findShoppingCart(email);
-		
+		for (ShoppingCart shoppingCart2 : shoppingCart) {
+			log.info(shoppingCart2.getCarId().toString());
+			
+		}
 		return shoppingCart;
 	}
 	

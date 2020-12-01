@@ -74,10 +74,24 @@ public class ShoppingCartServiceTest {
 	@Order(2)
 	void findById() throws Exception {
 				
-		Optional<ShoppingCart> shoppingCartServiceOptional=shoppingCartService.findById(carId);
+		Optional<ShoppingCart> shoppingCartServiceOptional=shoppingCartService.findById(15);
 		assertTrue(shoppingCartServiceOptional.isPresent(),"El shoppingCartServiceOptional con carId "+carId+" No existe");
  
 	}
+	
+	@Test
+	void EncontrarCarritosDeCompra() throws Exception{
+		//Arrange
+		//Integer carId=16;
+		String email="sruberrya@spiegel.de";
+		email="abeamondqq@harvard.edu";
+		//Act
+		log.info("");
+		log.info("INICIA EL PROCESO");
+		shoppingCartService.findShoppingCart(email);
+		log.info("******************* FIN");
+	}
+	
 	
 	@Test 
 	@Order(3)

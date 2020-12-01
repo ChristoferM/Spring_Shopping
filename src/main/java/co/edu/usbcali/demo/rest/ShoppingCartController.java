@@ -19,6 +19,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
+
 import javax.validation.Valid;
 
 /**
@@ -45,6 +47,15 @@ public class ShoppingCartController {
 		return ResponseEntity.ok().body(shoppingCartMapper.shoppingCartToShoppingCartDTO(shoppingCart));
 	}
 	
+	@RequestMapping("/findByEmail/{email}")
+	public ResponseEntity<?> findByEmail(@PathVariable("email") String email) throws Exception {
+
+		List<ShoppingCart>  shoppingCart = (shoppingCartService.findShoppingCart(email).isEmpty() == false)
+				? shoppingCartService.findShoppingCart(email)
+				: null;
+				//shoppingCartToShoppingCartDTO
+		return ResponseEntity.ok().body(shoppingCartMapper.listShoppingCartToListShoppingCartDTO(shoppingCart));
+	}
 
 	@RequestMapping("/findAll")
 	public ResponseEntity<?> findAll() throws Exception {
