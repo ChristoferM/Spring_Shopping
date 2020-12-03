@@ -62,8 +62,8 @@ class ProductServiceTest {
 	@Order(3)
 	void update() throws Exception {
 		log.info("update");
-	
-		Optional<Product> productOptional=productService.findById(idPro);
+		String idPro1="APPL785";
+		Optional<Product> productOptional=productService.findById(idPro1);
 		
 		//Siga si es true. Quiere decir que existe
 		assertTrue(productOptional.isPresent(),"El producto no existe");
@@ -89,6 +89,19 @@ class ProductServiceTest {
 		productService.delete(product);		
 	}
 	
+	@Test
+	void switchEnable() throws Exception{		
+		log.info("switchEnable");
+		String prodId="APPL699";
+		productService.switchEnable(prodId);		
+	}
+	
+	@Test
+	void switchDisable() throws Exception{		
+		log.info("switchDisable");
+		String prodId="APPL699";
+		productService.switchDisable(prodId);		
+	}
 	
 	
 }

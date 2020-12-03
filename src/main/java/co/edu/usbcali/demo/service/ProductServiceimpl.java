@@ -10,6 +10,7 @@ import javax.validation.ConstraintViolationException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -155,6 +156,36 @@ public class ProductServiceimpl implements ProductService  {
 	}else {
 		throw new Exception("El product con id :" + id + " no existe");
 	}
+		
+	}
+
+
+	@Override
+	@Transactional(readOnly = false, propagation = Propagation.REQUIRED, rollbackFor =Exception.class)
+	public void switchEnable(String prodId) throws Exception {
+		if(prodId == null) {
+			throw new Exception("Error ProId Null");
+			
+		}if(productRepository.existsById(prodId)) {
+			productRepository.switchEnable(prodId);
+		}else {
+			throw new Exception("Error No se encontro el Producto");
+		}
+		
+	}
+
+
+	@Override
+	@Transactional(readOnly = false, propagation = Propagation.REQUIRED, rollbackFor =Exception.class)
+	public void switchDisable(String prodId) throws Exception {
+		if(prodId == null) {
+			throw new Exception("Error ProId Null");
+			
+		}if(productRepository.existsById(prodId)) {
+			productRepository.switchDisable(prodId);
+		}else {
+			throw new Exception("Error No se encontro el Registro");
+		}
 		
 	}
 

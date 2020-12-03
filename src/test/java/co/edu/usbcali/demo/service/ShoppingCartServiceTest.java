@@ -38,7 +38,7 @@ public class ShoppingCartServiceTest {
 	
 	@Autowired
 	PaymentMethodService paymentMethodService;
-	
+
 	@Test
  	@Order(1)
 	void save() throws Exception {
@@ -116,6 +116,7 @@ public class ShoppingCartServiceTest {
 		
 	
 	}
+	
 	@Test
 	void findByIdEnable() throws Exception {
 		String email1="abaglowbn@furl.net";
@@ -130,7 +131,7 @@ public class ShoppingCartServiceTest {
 	
 	@Test
 	void findByShoppingCart() throws Exception {
-		
+		//busca el carrito de compra Por EMAIL
 		String email1="sruberrya@spiegel.de";
 		
 		List<ShoppingCart> shoppingsCart= shoppingCartService.findShoppingCart(email1);
@@ -157,6 +158,7 @@ public class ShoppingCartServiceTest {
 		
  
 	}
+
 	
 	
 }

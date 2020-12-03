@@ -67,7 +67,25 @@ public class PaymentMethodServiceimpl implements PaymentMethodService{
 		}
 		return paymentMethodRepository.save(entity);
 	}
-
+	
+	@Override
+	@Transactional(readOnly = false,propagation = Propagation.REQUIRED,rollbackFor = Exception.class)
+	public void switchEnable(Integer payId) throws Exception {
+		if(payId == null) {
+			throw new Exception("Erro con el PayMethods");
+		}
+		 paymentMethodRepository.switchEnable(payId);
+	}
+	
+	
+	@Override
+	@Transactional(readOnly = false,propagation = Propagation.REQUIRED,rollbackFor = Exception.class)
+	public void switchDisable(Integer payId) throws Exception {
+		if(payId == null) {
+			throw new Exception("Erro con el PayMethods");
+		}
+		 paymentMethodRepository.switchDisable(payId);
+	}
 	@Override
 	@Transactional(readOnly = false,propagation = Propagation.REQUIRED,rollbackFor = Exception.class)
 	public void delete(PaymentMethod entity) throws Exception {

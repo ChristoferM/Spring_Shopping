@@ -21,6 +21,8 @@ class CartServiceTest {
 	
 	@Autowired
 	CartService cartService;
+	
+	
 	private final static Logger log=LoggerFactory.getLogger(CartServiceTest.class);
 	@Test
 	void debeCrearUnShoppingCart()throws Exception {
@@ -31,7 +33,7 @@ class CartServiceTest {
 		ShoppingCart shoppingCart=null;
 		
 		//Act
-		email="abeamondqq@harvard.edu";
+		email="abaglowbn@furl.net";
 		shoppingCart=cartService.createCart(email);
 		
 		//Assert
@@ -69,10 +71,10 @@ class CartServiceTest {
 	@Test
 	void debeAgregarProductAPPL45ShoppingCart()throws Exception {
 		//Arrange
-		Integer carId=15;
+		Integer carId=17;
 		//String proId="APPL666";
 		String proId="APPL693";
-		Integer quantity=5;
+		Integer quantity=1;
 		ShoppingProduct shoppingProduct=null;
 		
 		//Act
@@ -86,17 +88,16 @@ class CartServiceTest {
 	void deleteShoppingProduct()throws Exception {
 		//Elimina el registro completo del Shopping Product
 		//Arrange
-		Integer carId=15;
+		Integer carId=1;
 		String proId="APPL693";
 		//Act
-		log.debug("\n INICIA EL BORRADO \n *******************");
+		log.info("\n INICIA EL BORRADO \n *******************");
 		cartService.deleteShoppingProduct(proId, carId);
 		
 		//Assert
 		
 	}
-	
-	
+		
 	@Test
 	void debeAgregarProductShoppingCart()throws Exception {
 		//Arrange
@@ -136,8 +137,8 @@ class CartServiceTest {
 		// APPL666
 		// APPL90
 		//String proId="APPL45";
-		Integer carId=15;
-		String proId="APPL666";
+		Integer carId=17;
+		String proId="APPL693";
 		//Act
 		cartService.removeProduct(carId, proId);
 	}
@@ -160,7 +161,6 @@ class CartServiceTest {
 		//Act
 		cartService.clearCart(carId);
 	}
-		
 
 	@Test
 	void EncontrarProductosDeCarritoDeCompra() throws Exception{

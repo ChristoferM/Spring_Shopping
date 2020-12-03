@@ -55,7 +55,22 @@ public class PaymentMethodController {
 	
 		
 	}
-	
+	@PutMapping("/Disable/{payId}")
+	public ResponseEntity<?> switchDisable(@PathVariable("payId") Integer payId) throws Exception {
+		if(payId == null) {
+			throw new Exception("Erro con el PayMethods");
+		}
+		paymentMethodService.switchDisable(payId);
+		return ResponseEntity.ok().build();
+	}
+	@PutMapping("/Enable/{payId}")
+	public ResponseEntity<?> switchEnable(@PathVariable("payId") Integer payId) throws Exception {
+		if(payId == null) {
+			throw new Exception("Erro con el PayMethods");
+		}
+		paymentMethodService.switchEnable(payId);
+		return ResponseEntity.ok().build();
+	}
 	@PutMapping("/update")
 	public ResponseEntity<?> update(@Valid @RequestBody PaymentMethodDTO paymentMethodDTO) throws Exception {
 		// http://localhost:9090/api/PayMethod/update

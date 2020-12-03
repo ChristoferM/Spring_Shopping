@@ -67,7 +67,25 @@ public class ProductController {
 		
 	}
 	
-	
+	@PutMapping("/Enable/{proId}")
+	public ResponseEntity<?> switchEnable(@PathVariable("proId") String proId) throws Exception{
+		if (proId == null) {
+			throw new Exception("Erro Con el Id Del producto ");
+			
+		}
+		productService.switchEnable(proId);
+		return ResponseEntity.ok().build();
+		
+	}
+	@PutMapping("/Disable/{proId}")
+	public ResponseEntity<?> switchDisable(@PathVariable("proId") String proId) throws Exception{
+		if (proId == null) {
+			throw new Exception("Erro Con el Id Del producto ");
+				
+		}
+		productService.switchDisable(proId);
+		return ResponseEntity.ok().build();
+	}
 
 	
 	@RequestMapping("/finByAll")

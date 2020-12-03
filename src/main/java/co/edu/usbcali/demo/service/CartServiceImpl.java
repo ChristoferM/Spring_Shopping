@@ -117,7 +117,7 @@ public class CartServiceImpl implements CartService {
 			
 			shoppingProduct=shoppingProductService.save(shoppingProduct);
 		}else {
-			shoppingProduct.setQuantity(quantity);
+			shoppingProduct.setQuantity(quantity+shoppingProduct.getQuantity());
 			totalShoppingProduct=Long.valueOf(product.getPrice()*quantity);
 			shoppingProduct.setTotal(totalShoppingProduct);
 			
@@ -178,22 +178,34 @@ public class CartServiceImpl implements CartService {
 		if(shoppingProduct==null) {
 			throw new Exception("El shoppingCart no tiene un product con id:"+proId);
 		}
-		
-		
-		shoppingProduct.setQuantity(shoppingProduct.getQuantity()-1);
-		totalShoppingProduct=Long.valueOf(product.getPrice()*shoppingProduct.getQuantity());
-		shoppingProduct.setTotal(totalShoppingProduct);
-		
-		shoppingProduct=shoppingProductService.update(shoppingProduct);
-		
-		
-		totalShoppingCart=shoppingProductService.totalShoppingProductByShoppingCart(carId);
-		quantityShoppingCart=shoppingProductService.quantityShoppingProductByShoppingCart(carId);
-		
-		shoppingCart.setItems(quantityShoppingCart);
-		shoppingCart.setTotal(totalShoppingCart);
-		shoppingCartService.update(shoppingCart);
+		//
+		if (shoppingProduct.getQuantity()-1<= 0) {
+			//deleteShoppingProduct
+			//deleteShoppingProduct(String pro_id, Integer carId)
+			deleteShoppingProduct(proId, carId);
+			
+			shoppingCart.setItems(0);
+			shoppingCart.setTotal((long) 0);
+			shoppingCartService.update(shoppingCart);
+			
+		}else {
+			shoppingProduct.setQuantity(shoppingProduct.getQuantity()-1);
+			
+			totalShoppingProduct=Long.valueOf(product.getPrice()*shoppingProduct.getQuantity());
+			shoppingProduct.setTotal(totalShoppingProduct);
+			
+			shoppingProduct=shoppingProductService.update(shoppingProduct);
+			
+			
+			totalShoppingCart=shoppingProductService.totalShoppingProductByShoppingCart(carId);
+			quantityShoppingCart=shoppingProductService.quantityShoppingProductByShoppingCart(carId);
+			
+			shoppingCart.setItems(quantityShoppingCart);
+			shoppingCart.setTotal(totalShoppingCart);
+			shoppingCartService.update(shoppingCart);
 
+
+		}
 	}
 
 	@Override
@@ -233,6 +245,10 @@ public class CartServiceImpl implements CartService {
 	public List<ShoppingCart> findShoppingCart(String email) throws Exception {
 		// TODO Auto-generated method stub
 		//BUSCA LOS CARROS POR EMAIL
+		if(email== null) {
+			throw new Exception("Corre Null");
+			
+		}
 		List<ShoppingCart> shoppingCart=shoppingCartService.findShoppingCart(email);
 		
 		return shoppingCart;

@@ -3,6 +3,7 @@ package co.edu.usbcali.demo.rest;
 import co.edu.usbcali.demo.domain.*;
 import co.edu.usbcali.demo.dto.ShoppingProductDTO;
 import co.edu.usbcali.demo.mapper.ShoppingProductMapper;
+import co.edu.usbcali.demo.service.CartService;
 import co.edu.usbcali.demo.service.ShoppingProductService;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,6 +31,8 @@ public class ShoppingProductController {
 	private ShoppingProductService shoppingProductService;
 	@Autowired
 	private ShoppingProductMapper shoppingProductMapper;
+	@Autowired
+	CartService cartService;
 
 	@RequestMapping("/findById/{shprId}")
 	public ResponseEntity<?> findById(@PathVariable("shprId") Integer shprId) throws Exception {
@@ -64,6 +67,12 @@ public class ShoppingProductController {
 
 		return ResponseEntity.ok().body(shoppingProductMapper.shoppingProductToShoppingProductDTO(shoppingProduct));
 	}
+	
+	@RequestMapping("/addShp/{carId}/{proId}")
+	public ResponseEntity<?> addProductShoppingProduct(@PathVariable("carId") Integer carId,@PathVariable("proId") String proId) throws Exception {
+
+		return ResponseEntity.ok().body(cartService.addProduct(carId, proId, 1) );
+	}
 
 	@PutMapping("/update")
 	public ResponseEntity<?> update(@Valid @RequestBody ShoppingProductDTO shoppingProductDTO) throws Exception {
@@ -83,11 +92,12 @@ public class ShoppingProductController {
 		return ResponseEntity.ok().build();
 	}
 	
-	
-	@DeleteMapping("/deleteP/{pro_id}/{carId}")
-	public ResponseEntity<?> deleteShoppingProduct(@PathVariable("shprId") String pro_id,Integer carId) throws Exception {
+	//removeProduct
+	@DeleteMapping("/deleteP/{carId}/{pro_id}")
+	public ResponseEntity<?> deleteP(@PathVariable("carId")Integer carId,@PathVariable("pro_id") String pro_id) throws Exception {
 
-		shoppingProductService.deleteShoppingProduct(pro_id, carId);
+		//shoppingProductService.deleteShoppingProduct(pro_id, carId);
+		cartService.removeProduct(carId, pro_id);
 
 		return ResponseEntity.ok().build();
 	}

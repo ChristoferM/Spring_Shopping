@@ -3,6 +3,7 @@ package co.edu.usbcali.demo.rest;
 import co.edu.usbcali.demo.domain.*;
 import co.edu.usbcali.demo.dto.ShoppingCartDTO;
 import co.edu.usbcali.demo.mapper.ShoppingCartMapper;
+import co.edu.usbcali.demo.service.CartServiceImpl;
 import co.edu.usbcali.demo.service.ShoppingCartService;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,9 +35,12 @@ import javax.validation.Valid;
 public class ShoppingCartController {
 	@Autowired
 	private ShoppingCartService shoppingCartService;
+	
 	@Autowired
 	private ShoppingCartMapper shoppingCartMapper;
 
+	@Autowired
+	CartServiceImpl servicioscar;
 	@RequestMapping("/findById/{carId}")
 	public ResponseEntity<?> findById(@PathVariable("carId") Integer carId) throws Exception {
 
@@ -64,14 +68,17 @@ public class ShoppingCartController {
 				.body(shoppingCartMapper.listShoppingCartToListShoppingCartDTO(shoppingCartService.findAll()));
 	}
 
-	@RequestMapping("/save")
-	public ResponseEntity<?> save(@Valid @RequestBody ShoppingCartDTO shoppingCartDTO) throws Exception {
+	
+	@RequestMapping("/save/{email}")
+	public ResponseEntity<?> save(@PathVariable("email") String email) throws Exception {
 
-		ShoppingCart shoppingCart = shoppingCartMapper.shoppingCartDTOToShoppingCart(shoppingCartDTO);
-		shoppingCart = shoppingCartService.save(shoppingCart);
-
-		return ResponseEntity.ok().body(shoppingCartMapper.shoppingCartToShoppingCartDTO(shoppingCart));
+		if(shoppingCartService.findShoppingCart(email).isEmpty() == false) {
+			throw new Exception("El usurio: "+email+" tiene activo un carro");
+		}
+		return ResponseEntity.ok()
+				.body(servicioscar.createCart(email));
 	}
+
 
 	@PutMapping("/update")
 	public ResponseEntity<?> update(@Valid @RequestBody ShoppingCartDTO shoppingCartDTO) throws Exception {

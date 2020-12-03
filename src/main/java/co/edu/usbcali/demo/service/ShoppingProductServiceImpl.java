@@ -35,6 +35,9 @@ public class ShoppingProductServiceImpl implements ShoppingProductService {
     private ShoppingProductRepository shoppingProductRepository;
     @Autowired
     private Validator validator;
+    
+    @Autowired
+	ShoppingProductService shoppingProductService;
 
     @Override
     public void validate(ShoppingProduct shoppingProduct)
@@ -117,13 +120,13 @@ public class ShoppingProductServiceImpl implements ShoppingProductService {
     @Override
     @Transactional(readOnly = false, propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
     public void deleteShoppingProduct(String pro_id,Integer carId )  throws Exception{
-    	log.debug("\n ***************** \n");
-        log.debug("deleting ShoppingProduct BY PRO_ID AND CAR_ID");
+    	log.info("\n ***************** \n");
+        log.info("deleting ShoppingProduct BY PRO_ID AND CAR_ID");
 
         if (pro_id == null || carId == null) {
         	throw new Exception("El ShoppingProduct id es nulo");
         }
-        log.debug("**************deleting ShoppingProduct BY PRO_ID AND CAR_ID");
+        log.info("**************deleting ShoppingProduct BY PRO_ID AND CAR_ID");
         shoppingProductRepository.deleteShoppingProduct(pro_id, carId);
     }
 
@@ -197,7 +200,6 @@ public class ShoppingProductServiceImpl implements ShoppingProductService {
 	@Override
 	@Transactional(readOnly = true)
 	public List<ShoppingProduct> findProductByShpId(String email) {
-		
 		return shoppingProductRepository.findProductByShpId(email);
 		
 	}

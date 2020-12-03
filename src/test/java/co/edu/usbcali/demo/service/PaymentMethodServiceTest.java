@@ -80,7 +80,7 @@ class PaymentMethodServiceTest {
 	@Order(3)
 	void update() throws Exception {
 		log.info("UPDATE");
-	
+		payId=16;
 		Optional<PaymentMethod> customerOptional=paymentMethodService.findById(payId);
 		
 		//Siga si es true. Quiere decir que existe
@@ -88,6 +88,7 @@ class PaymentMethodServiceTest {
 		
 		PaymentMethod paymentMethod=customerOptional.get();
 		
+		paymentMethod.setName("NEKI");
 		paymentMethod.setEnable("N");
 		
 		paymentMethodService.update(paymentMethod);		
@@ -107,7 +108,21 @@ class PaymentMethodServiceTest {
 		
 		paymentMethodService.delete(paymentMethod);		
 	}
+	@Test
+	@Transactional 
+	void switchEnable() throws Exception{		
+		log.info("switchEnable");
+		Integer IdP=1;
+		paymentMethodService.switchEnable(IdP);		
+	}
 	
+	@Test
+	@Transactional 
+	void switchDisable() throws Exception{		
+		log.info("switchDisable");
+		Integer IdP=1;
+		paymentMethodService.switchDisable(IdP);		
+	}
 	
 	
 
