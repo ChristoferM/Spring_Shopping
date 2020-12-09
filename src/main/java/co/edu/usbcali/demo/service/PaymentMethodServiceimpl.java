@@ -1,10 +1,12 @@
 package co.edu.usbcali.demo.service;
 
+
 import java.util.List;
 import java.util.Optional;
-
 import javax.validation.Validator;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
@@ -20,6 +22,8 @@ import co.edu.usbcali.demo.repository.PaymentMethodRepository;
 @Scope("singleton")
 public class PaymentMethodServiceimpl implements PaymentMethodService{
 	
+	private final static Logger log=LoggerFactory.getLogger(PaymentMethodServiceimpl.class);
+
 	@Autowired
 	PaymentMethodRepository paymentMethodRepository;
 
@@ -31,10 +35,47 @@ public class PaymentMethodServiceimpl implements PaymentMethodService{
 	 * */	
 	
 	@Override
-	@Transactional(readOnly = true)
+	//@Transactional(readOnly = false)
+	public List<PaymentMethod> finByAll_1() {
+		return paymentMethodRepository.finByAll_1();
+	}
+	
+	@Override
+	@Transactional
 	public List<PaymentMethod> findAll() {
+		log.debug("finding all PaymentMethod instances");
 		return paymentMethodRepository.findAll();
 	}
+
+	
+	@Override
+	@Transactional(readOnly = true)
+	public List<PaymentMethod> finByAllEnable() throws Exception {
+		return paymentMethodRepository.finByAllEnable();
+	}
+	
+	
+	
+	//@Transactional(readOnly = true)
+	@Override
+	@Transactional(readOnly = false,propagation = Propagation.REQUIRED,rollbackFor = Exception.class)
+	public void PayCart(Integer payId, Integer carId) throws Exception{
+		
+		if(paymentMethodRepository.existsById(payId)==false) {
+			
+			throw new Exception("El paymentMethod no existe");
+		}
+		/* Optional<PaymentMethod> paymentMethod=paymentMethodRepository.finByAllByIdEnable(payId);
+		if (paymentMethod.isEmpty()) {
+			throw new Exception("ERROR CON EL PAYMENT mETHOD");
+		}
+		if(paymentMethod.get().getEnable().equals("N") ) {
+			throw new Exception("ERROR CON EL PAYMENT mETHOD");
+		}*/
+		paymentMethodRepository.PayCart(payId,carId);
+		
+	}
+	
 	
 	@Override
 	@Transactional(readOnly = true)
@@ -146,7 +187,7 @@ public class PaymentMethodServiceimpl implements PaymentMethodService{
 			throw new Exception("El Enable es obligatoria");
 		}
 	}
-
+	
 
 	
 

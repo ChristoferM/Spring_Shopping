@@ -1,6 +1,7 @@
 package co.edu.usbcali.demo.repository;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
@@ -20,7 +21,8 @@ public interface ShoppingProductRepository extends JpaRepository<ShoppingProduct
 	@Query("SELECT shpr FROM ShoppingProduct shpr WHERE shpr.shoppingCart.carId=:carId and shpr.product.proId=:proId")
 	public ShoppingProduct findByShoppingCartAndProduct(Integer carId,String proId);
 	
-	@Query("SELECT shpr FROM ShoppingProduct shpr WHERE shpr.shoppingCart.carId=:carId")
+	
+	@Query(value ="select * from shopping_product where shopping_product.car_id= ?1 ;", nativeQuery = true)
 	public List<ShoppingProduct> findShoppingProductByShoppingCart(Integer carId);
 	
 	@Modifying

@@ -158,6 +158,35 @@ public class CustomerServiceimpl  implements CustomerService{
 		
 	}
 
+	@Override
+	@Transactional(readOnly = false,propagation = Propagation.REQUIRED,rollbackFor = Exception.class)
+	public void switchEnable(String email) throws Exception {
+		customerRepository.switchEnable(email);
+		if(email == null) {
+			throw new Exception("Error email Null");
+			
+		}if(customerRepository.existsById(email)) {
+			customerRepository.switchEnable(email);
+		}else {
+			throw new Exception("Error No se encontro el Producto");
+		}
+		
+	}
+
+	@Override
+	@Transactional(readOnly = false,propagation = Propagation.REQUIRED,rollbackFor = Exception.class)
+	public void switchDisable(String email) throws Exception {
+		if(email == null) {
+			throw new Exception("Error email Null");
+			
+		}if(customerRepository.existsById(email)) {
+			customerRepository.switchDisable(email);
+		}else {
+			throw new Exception("Error No se encontro el Producto");
+		}
+		
+	}
+
 
 
 }

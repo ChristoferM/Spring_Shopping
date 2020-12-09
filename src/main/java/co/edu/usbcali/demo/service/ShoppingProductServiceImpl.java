@@ -62,6 +62,14 @@ public class ShoppingProductServiceImpl implements ShoppingProductService {
 
         return shoppingProductRepository.findAll();
     }
+    @Override
+    @Transactional(readOnly = true)
+    public Optional<ShoppingProduct> findById(Integer shprId)
+        throws Exception {
+        log.debug("getting ShoppingProduct instance");
+
+        return shoppingProductRepository.findById(shprId);
+    }
 
     @Override
     @Transactional(readOnly = false, propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
@@ -149,14 +157,7 @@ public class ShoppingProductServiceImpl implements ShoppingProductService {
         return shoppingProductRepository.save(entity);
     }
 
-    @Override
-    @Transactional(readOnly = true)
-    public Optional<ShoppingProduct> findById(Integer shprId)
-        throws Exception {
-        log.debug("getting ShoppingProduct instance");
-
-        return shoppingProductRepository.findById(shprId);
-    }
+  
 
 	@Override
 	@Transactional(readOnly = true)
@@ -205,9 +206,10 @@ public class ShoppingProductServiceImpl implements ShoppingProductService {
 	}
 
 	@Override
+    @Transactional(readOnly = true)
 	public List<ShoppingProduct> findShoppingProductByShoppingCart(Integer carId) {
-		// TODO Auto-generated method stub
-		return null;
+
+		return shoppingProductRepository.findShoppingProductByShoppingCart(carId);
 	}
 
 

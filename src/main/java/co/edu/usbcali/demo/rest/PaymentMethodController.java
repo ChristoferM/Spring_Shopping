@@ -10,17 +10,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import co.edu.usbcali.demo.domain.PaymentMethod;
-import co.edu.usbcali.demo.domain.PaymentMethod;
-import co.edu.usbcali.demo.dto.PaymentMethodDTO;
 import co.edu.usbcali.demo.dto.PaymentMethodDTO;
 import co.edu.usbcali.demo.mapper.PaymentMethodMapper;
 import co.edu.usbcali.demo.service.PaymentMethodService;
@@ -55,7 +47,7 @@ public class PaymentMethodController {
 	
 		
 	}
-	@PutMapping("/Disable/{payId}")
+	@RequestMapping("/Disable/{payId}")
 	public ResponseEntity<?> switchDisable(@PathVariable("payId") Integer payId) throws Exception {
 		if(payId == null) {
 			throw new Exception("Erro con el PayMethods");
@@ -63,7 +55,8 @@ public class PaymentMethodController {
 		paymentMethodService.switchDisable(payId);
 		return ResponseEntity.ok().build();
 	}
-	@PutMapping("/Enable/{payId}")
+	
+	@RequestMapping("/Enable/{payId}")
 	public ResponseEntity<?> switchEnable(@PathVariable("payId") Integer payId) throws Exception {
 		if(payId == null) {
 			throw new Exception("Erro con el PayMethods");
@@ -112,10 +105,8 @@ public class PaymentMethodController {
 	public ResponseEntity<?> finByAll() throws Exception{
 		//  http://localhost:9090/api/PayMethod/findAll
 	
-			List<PaymentMethod> PaymentMethods = paymentMethodService.findAll();
-			List<PaymentMethodDTO> PaymentMethodDTOs = paymentMethodMapper.toMethodDTOs(PaymentMethods);
-			
-			return ResponseEntity.ok().body(PaymentMethodDTOs);
+		return ResponseEntity.ok()
+				.body(paymentMethodMapper.listPaymentMethodToListPaymentMethodDTO(paymentMethodService.findAll()));
 			/*
 			 * List<PaymentMethodDTO> PaymentMethodDTOs= new ArrayList<>();
 			 * 
@@ -130,7 +121,26 @@ public class PaymentMethodController {
 			 * });
 			 */	
 	}
-
+	@RequestMapping("/finByAllEnable")
+	public ResponseEntity<?> finByAllEnable() throws Exception{
+		//  http://localhost:9090/api/PayMethod/findAll
+	
+			List<PaymentMethod> PaymentMethods = paymentMethodService.finByAllEnable();
+			List<PaymentMethodDTO> PaymentMethodDTOs = paymentMethodMapper.toMethodDTOs(PaymentMethods);
+			return ResponseEntity.ok().body(PaymentMethodDTOs);
+	}
+	
+	
+	@RequestMapping("/PayCart/{payId}/{carId}")
+	public ResponseEntity<?> PayCart (@PathVariable("payId")  Integer payId,@PathVariable("carId") Integer carId) throws Exception{
+		//  http://localhost:9090/api/PayMethod/findAll
+			log.info("**************************************");
+			 paymentMethodService.PayCart(payId,carId);
+			 log.info("**************************************");
+			return ResponseEntity.ok().build();
+	}
+	
+	
 	@RequestMapping("/findById/{payId}")
 	public ResponseEntity<?> finById(@PathVariable("payId")  Integer payId) throws Exception{
 		// http://localhost:9090/api/PayMethod/findById/1

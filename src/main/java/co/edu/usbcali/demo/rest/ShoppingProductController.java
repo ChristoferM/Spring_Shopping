@@ -1,8 +1,10 @@
 package co.edu.usbcali.demo.rest;
 
 import co.edu.usbcali.demo.domain.*;
+import co.edu.usbcali.demo.dto.ProductDTO;
 import co.edu.usbcali.demo.dto.ShoppingProductDTO;
 import co.edu.usbcali.demo.mapper.ShoppingProductMapper;
+import co.edu.usbcali.demo.mapper.ShoppingProductMapperImpl;
 import co.edu.usbcali.demo.service.CartService;
 import co.edu.usbcali.demo.service.ShoppingProductService;
 
@@ -20,6 +22,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
+import java.util.Optional;
+
 import javax.validation.Valid;
 
 @RestController
@@ -31,17 +36,37 @@ public class ShoppingProductController {
 	private ShoppingProductService shoppingProductService;
 	@Autowired
 	private ShoppingProductMapper shoppingProductMapper;
+	
+	
 	@Autowired
 	CartService cartService;
 
 	@RequestMapping("/findById/{shprId}")
 	public ResponseEntity<?> findById(@PathVariable("shprId") Integer shprId) throws Exception {
 
-		ShoppingProduct shoppingProduct = (shoppingProductService.findById(shprId).isPresent() == true)
-				? shoppingProductService.findById(shprId).get()
-				: null;
+		List<ShoppingProduct> productList = shoppingProductService.findShoppingProductByShoppingCart(shprId);
+		if (productList.isEmpty() == true) {
+			return ResponseEntity.ok().body("error Not Found");
+		}
+		
+		
+		//ShoppingProductDTO shoppingProductDTO=  shoppingProductMapper.listShoppingProductToListShoppingProductDTO(productList);
+		
+		
+		return ResponseEntity.ok().body( shoppingProductMapper.listShoppingProductToListShoppingProductDTO(productList));
+		/*
+		 * 	eturn ResponseEntity.ok().body(productDTO);
+			Optional<Product> productOptional = productService.findById(proId);
+			if (productOptional.isPresent() == false) {
+				return ResponseEntity.ok().body("Customer Not Found");
+			}
 
-		return ResponseEntity.ok().body(shoppingProductMapper.shoppingProductToShoppingProductDTO(shoppingProduct));
+			Product product = productOptional.get();
+			ProductDTO productDTO = productMapper.toProductDTO(product);
+
+			
+
+			return ResponseEntity.ok().body(productDTO);*/
 	}
 	
 	@RequestMapping("/findProductByShpId/{shprId}")
@@ -73,6 +98,19 @@ public class ShoppingProductController {
 
 		return ResponseEntity.ok().body(cartService.addProduct(carId, proId, 1) );
 	}
+	//removeProduct
+	@RequestMapping("/deleteP/{carId}/{pro_id}")
+	public ResponseEntity<?> deleteP(@PathVariable("carId")Integer carId,@PathVariable("pro_id") String pro_id) throws Exception {
+
+			//shoppingProductService.deleteShoppingProduct(pro_id, carId);
+			cartService.removeProduct(carId, pro_id);
+
+			return ResponseEntity.ok().build();
+		}
+	@RequestMapping("/createCart/{email}")
+	public ResponseEntity<?> createCart(@PathVariable("email") String email) throws Exception {
+		return ResponseEntity.ok().body(cartService.createCart(email));
+	}
 
 	@PutMapping("/update")
 	public ResponseEntity<?> update(@Valid @RequestBody ShoppingProductDTO shoppingProductDTO) throws Exception {
@@ -92,15 +130,7 @@ public class ShoppingProductController {
 		return ResponseEntity.ok().build();
 	}
 	
-	//removeProduct
-	@DeleteMapping("/deleteP/{carId}/{pro_id}")
-	public ResponseEntity<?> deleteP(@PathVariable("carId")Integer carId,@PathVariable("pro_id") String pro_id) throws Exception {
-
-		//shoppingProductService.deleteShoppingProduct(pro_id, carId);
-		cartService.removeProduct(carId, pro_id);
-
-		return ResponseEntity.ok().build();
-	}
+	
 	@RequestMapping("/count")
 	public ResponseEntity<?> count() {
 		return ResponseEntity.ok().body(shoppingProductService.count());

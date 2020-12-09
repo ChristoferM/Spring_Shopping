@@ -16,9 +16,10 @@ public interface PaymentMethodMapper {
 	public PaymentMethodDTO toMethodDTO(PaymentMethod paymentMethod) ;
 	
 	public PaymentMethod toMethod(PaymentMethodDTO paymentMethodDTO);
-
+    public List<PaymentMethodDTO> listPaymentMethodToListPaymentMethodDTO(
+            List<PaymentMethod> paymentMethods);
 	public List<PaymentMethodDTO> toMethodDTOs(List<PaymentMethod> paymentMethods);
-	
+
 	public List<PaymentMethod> toMethods(List<PaymentMethodDTO> paymentMethodDTOs);
  
 }

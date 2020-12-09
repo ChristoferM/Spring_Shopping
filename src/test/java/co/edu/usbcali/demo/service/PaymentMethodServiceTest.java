@@ -2,6 +2,7 @@ package co.edu.usbcali.demo.service;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.junit.jupiter.api.TestMethodOrder;
@@ -75,6 +76,43 @@ class PaymentMethodServiceTest {
 		//Siga si es true. Quiere decir que existe
 		assertTrue(paymentMethodOptional.isPresent(),"El PaymentMethod no existe;Error");
 	}
+	@Test
+	@Transactional 
+	void finByAllEnable() throws Exception{
+		log.info("finByAllEnable");
+		List<PaymentMethod>  paymentMethodOptional=paymentMethodService.finByAllEnable();
+		for (PaymentMethod paymentMethods : paymentMethodOptional) {
+			log.info(paymentMethods.getName());
+			log.info(paymentMethods.getEnable());
+		}
+		assertTrue(paymentMethodOptional.isEmpty(),"El PaymentMethod no existe;Error");
+	}
+	
+	
+	@Test
+	@Transactional 
+	void finByAll_1() throws Exception{
+		log.info("finByAllEnable");
+		List<PaymentMethod>  paymentMethodOptional=paymentMethodService.finByAll_1();
+		log.info(paymentMethodOptional.getClass().toString());
+		for (PaymentMethod paymentMethods : paymentMethodOptional) {
+			
+			log.info(paymentMethods.getPayId().toString());
+			log.info(paymentMethods.getName());
+			log.info(paymentMethods.getEnable());
+		}
+		assertNotNull(paymentMethodOptional.isEmpty(),"El PaymentMethod no existe;Error");
+	}
+	@Test
+	@Transactional 
+	void PayCart() throws Exception{
+		log.info("finByAllEnable");
+		//Integer payId, Integer carId
+		paymentMethodService.PayCart(2,17);
+		
+	}
+	
+	
 	@Test
 	@Transactional 
 	@Order(3)

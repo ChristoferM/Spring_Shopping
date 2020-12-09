@@ -71,9 +71,9 @@ class CartServiceTest {
 	@Test
 	void debeAgregarProductAPPL45ShoppingCart()throws Exception {
 		//Arrange
-		Integer carId=17;
+		Integer carId=null;
 		//String proId="APPL666";
-		String proId="APPL693";
+		String proId="APPL45";
 		Integer quantity=1;
 		ShoppingProduct shoppingProduct=null;
 		
@@ -88,7 +88,7 @@ class CartServiceTest {
 	void deleteShoppingProduct()throws Exception {
 		//Elimina el registro completo del Shopping Product
 		//Arrange
-		Integer carId=1;
+		Integer carId=15;
 		String proId="APPL693";
 		//Act
 		log.info("\n INICIA EL BORRADO \n *******************");
@@ -137,7 +137,7 @@ class CartServiceTest {
 		// APPL666
 		// APPL90
 		//String proId="APPL45";
-		Integer carId=17;
+		Integer carId=15;
 		String proId="APPL693";
 		//Act
 		cartService.removeProduct(carId, proId);

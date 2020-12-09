@@ -51,6 +51,27 @@ public class CustomerController {
 	
 		
 	}
+
+	@RequestMapping("/Enable/{email}")
+	public ResponseEntity<?> switchEnable(@PathVariable("email") String email) throws Exception{
+		if (email == null) {
+			throw new Exception("Erro Con el Id Del producto ");
+			
+		}
+		
+		customerService.switchEnable(email);
+		return ResponseEntity.ok().build();
+		
+	}
+	@RequestMapping("/Disable/{email}")
+	public ResponseEntity<?> switchDisable(@PathVariable("email") String email) throws Exception{
+		if (email == null) {
+			throw new Exception("Erro Con el Id Del producto ");
+				
+		}
+		customerService.switchDisable(email);
+		return ResponseEntity.ok().build();
+	}
 	
 	@PutMapping("/update")
 	public ResponseEntity<?> update(@Valid @RequestBody CustomerDTO customerDTO) throws Exception {
@@ -67,7 +88,7 @@ public class CustomerController {
 		
 	}
 	
-	@DeleteMapping("/delete/{email}")
+	@RequestMapping("/delete/{email}")
 	public ResponseEntity<?> delete(@PathVariable("email") String email) throws Exception{
 		// http://localhost:9090/api/customer/delete/{}
 		

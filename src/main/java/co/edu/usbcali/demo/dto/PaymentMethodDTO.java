@@ -27,51 +27,42 @@ public class PaymentMethodDTO {
 	private String name;
 	
 	
-	private List<ShoppingCart> shoppingCarts = new ArrayList<ShoppingCart>(0);
-
+	
 	public PaymentMethodDTO() {
 	}
-
-	public PaymentMethodDTO(Integer payId, String enable, String name, List<ShoppingCart> shoppingCarts) {
-		this.payId = payId;
+	
+	public PaymentMethodDTO(Integer payId, String enable, String name) {
+ 		this.payId = payId;
 		this.enable = enable;
 		this.name = name;
-		this.shoppingCarts = shoppingCarts;
 	}
-
 
 	public Integer getPayId() {
-		return this.payId;
+		return payId;
 	}
+
 
 	public void setPayId(Integer payId) {
 		this.payId = payId;
 	}
 
-	
+
 	public String getEnable() {
-		return this.enable;
+		return enable;
 	}
+
 
 	public void setEnable(String enable) {
 		this.enable = enable;
 	}
 
-	
+
 	public String getName() {
-		return this.name;
+		return name;
 	}
+
 
 	public void setName(String name) {
 		this.name = name;
-	}
-
-	
-	public List<ShoppingCart> getShoppingCarts() {
-		return this.shoppingCarts;
-	}
-
-	public void setShoppingCarts(List<ShoppingCart> shoppingCarts) {
-		this.shoppingCarts = shoppingCarts;
 	}
 }

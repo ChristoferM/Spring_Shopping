@@ -1,6 +1,7 @@
 package co.edu.usbcali.demo.security;
 
 import static co.edu.usbcali.demo.security.Constants.LOGIN_URL;
+import static co.edu.usbcali.demo.security.Constants.LOGIN_URL_1;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -53,7 +54,7 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
 				.csrf()
 				.disable()
 				.authorizeRequests()
-				.antMatchers(HttpMethod.POST, LOGIN_URL)
+				.antMatchers(HttpMethod.POST, LOGIN_URL,LOGIN_URL_1)
 				.permitAll()
 				.anyRequest()
 				.authenticated()

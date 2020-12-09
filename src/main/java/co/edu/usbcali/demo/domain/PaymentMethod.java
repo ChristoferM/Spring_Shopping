@@ -54,6 +54,9 @@ public class PaymentMethod implements java.io.Serializable {
 	public Integer getPayId() {
 		return this.payId;
 	}
+	
+	
+	
 	@Column(name = "enable", nullable = false)
 	public String getEnable() {
 		return this.enable;
@@ -68,6 +71,7 @@ public class PaymentMethod implements java.io.Serializable {
 	public List<ShoppingCart> getShoppingCarts() {
 		return this.shoppingCarts;
 	}
+	
 	
 	public void setPayId(Integer payId) {
 		this.payId = payId;

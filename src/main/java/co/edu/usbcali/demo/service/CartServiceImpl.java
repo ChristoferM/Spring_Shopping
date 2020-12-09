@@ -48,10 +48,10 @@ public class CartServiceImpl implements CartService {
 		
 		customer=customerOptional.get();
 		
-		if(customer.getEnable()==null || customer.getEnable().equals("Y")==true) {
-			throw new Exception("El cliente con email: "+email+" esta habilitado");
+		if(customer.getEnable()==null || customer.getEnable().equals("N")==true) {
+			throw new Exception("El cliente con email: "+email+" esta InHabilitado");
 		}
-		if(shoppingCartService.findShoppingCart(email).isEmpty() ) {
+		if(shoppingCartService.findShoppingCart(email).isEmpty()==false ) {
 			
 			throw new Exception("El cliente con email: "+email+" Tiene un Carrito Habilitado");
 		}
@@ -72,9 +72,9 @@ public class CartServiceImpl implements CartService {
 		Long totalShoppingCart=0L;
 		Integer quantityShoppingCart=0;
 		
-		if(carId==null || carId<=0) {
+		/*if( carId<=0) {
 			throw new Exception("El carId es nulo o menor a cero");
-		}
+		}*/
 		
 		if(proId==null || proId.isBlank()==true) {
 			throw new Exception("El proId es nulo o menor a esta en blanco");
@@ -106,7 +106,7 @@ public class CartServiceImpl implements CartService {
 		
 		
 		ShoppingProduct shoppingProduct=shoppingProductService.findByShoppingCartAndProduct(carId, proId);
-		if(shoppingProduct==null) {
+		if(shoppingProduct==null ) {
 			shoppingProduct=new ShoppingProduct();
 			shoppingProduct.setProduct(product);
 			shoppingProduct.setQuantity(quantity);
@@ -118,7 +118,7 @@ public class CartServiceImpl implements CartService {
 			shoppingProduct=shoppingProductService.save(shoppingProduct);
 		}else {
 			shoppingProduct.setQuantity(quantity+shoppingProduct.getQuantity());
-			totalShoppingProduct=Long.valueOf(product.getPrice()*quantity);
+			totalShoppingProduct=Long.valueOf(product.getPrice()*(quantity+shoppingProduct.getQuantity()));
 			shoppingProduct.setTotal(totalShoppingProduct);
 			
 			shoppingProduct=shoppingProductService.update(shoppingProduct);
